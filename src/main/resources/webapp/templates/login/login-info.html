@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello Page</title>
+    <link href="hello.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div th:insert="~{fragments/navbar :: navbar-hello_page}"></div>
+
+    <!-- Content -->
+    <div style="margin-left: 12.5vw;">
+        <p style="font-size: 2vw;">Здель информация о том, как получить логин и пароль</p>
+        <p>Чтобы получить логин и пароль, нужно:</p>
+        <ul>
+            <li>Пункт первый</li>
+            <li>Пункт второй</li>
+            <li>Пункт третий</li>
+            <li>Пункт четвертый</li>
+        </ul>
+        <p>Телефон для справок: 8-800-...</p>
+        <a href="/hello">Вернуться на главную</a>
+    </div>
+
+</body>
+</html>

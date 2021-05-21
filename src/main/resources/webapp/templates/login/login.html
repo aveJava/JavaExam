@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700">
+    <link href="login.css" rel="stylesheet">
+</head>
+<body>
+
+    <div id="login">
+        <form method="post" th:action="${#request.contextPath} + '/login'" name='form-login' style="margin-top: 30vh;">
+            <th:block th:if="${errorMsg == 'Bad credentials!'}">
+                <p style="position: absolute; margin-top: -5px; color: brown;">Неправильный логин или пароль</p>
+            </th:block>
+            <span class="fontawesome-user" style="margin-top: 25px"></span>
+            <input type="text" name="username" id="user" placeholder="Имя" style="margin-top: 25px">
+
+            <span class="fontawesome-lock"></span>
+            <input type="password" name="password" id="pass" placeholder="Пароль">
+
+            <input type="submit" value="Войти">
+
+            <div style="display: flex; margin-top: 15px; margin-bottom: -5px;">
+                <a id="reg" href="/info" style="text-decoration: none;">Где взять логин и пароль?</a>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>
