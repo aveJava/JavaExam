@@ -1,0 +1,25 @@
+.logo {
+    display: inline-block;
+    margin-left: 10vw;
+    width: 40px;
+    margin-top: 5px;
+}
+
+.navHeader {
+    display: inline-block;
+    margin-left: 0.5vw;
+    font-size: 2vw;
+    color: aliceblue;
+    padding-top: 3px;
+}
+
+.adminBtn {
+    display: inline-block;
+    margin: auto 0;
+    color: lightgray;
+    text-decoration: none;
+}
+
+.adminBtn:hover {
+    color: #b5cd60;
+}

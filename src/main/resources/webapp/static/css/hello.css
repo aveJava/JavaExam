@@ -1,0 +1,45 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.content {
+    background-color: #121212;
+    height: calc(100vh - 50px);
+    display: flex;
+    justify-content: center;
+}
+
+.testIcon {
+    margin: auto 2vw;
+    background: none;
+    border: none;
+    color: aliceblue;
+    font-size: 0.8vw;
+    display: inline-grid;
+    text-align: center;
+    text-decoration: none;
+    padding-bottom: 25vh;
+}
+
+.labelImg {
+    margin: 0 auto;
+}
+
+.labelBtn {
+    background: #d0b92b;
+    color: black;
+    border-radius: 5px;
+    border-style: solid;
+    border-color: gold;
+    border-width: revert;
+    font-weight: 700;
+    height: 1.5vw;
+    text-shadow: 0 0 black;
+    cursor: pointer;
+}
+
+.labelBtn:hover {
+    box-shadow: 0 0 13px 10px rgba(202 28 156 / 65%);
+}
+

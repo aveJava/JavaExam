@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello content</title>
+</head>
+<body>
+
+    <div th:fragment="content" class="content">
+
+        <form id="JavaForm" action="/testing/selection" method="get" class="testIcon">
+            <input type="hidden" name="test" value="JAVA">
+            <img class="labelImg" src="images/java_icon.png" style="width: 5vw;">
+            <button class="labelBtn" type="submit">Начать тест по Java</button>
+        </form>
+
+        <form id="SpringForm" action="/testing/selection" method="get" class="testIcon">
+            <input type="hidden" name="test" value="SPRING">
+            <img class="labelImg" src="images/spring_icon.png" style="width: 8vw; margin: 0.75vw auto;">
+            <button class="labelBtn" type="submit">Начать тест по Spring</button>
+        </form>
+
+    </div>
+
+</body>
+</html>

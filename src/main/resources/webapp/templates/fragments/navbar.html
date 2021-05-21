@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>navbar</title>
+</head>
+<body>
+
+    <div th:fragment="navbar">
+
+        <link href="navbar.css" rel="stylesheet">
+
+        <div class="container-fluid" style="height: 50px; background-color: #2a2a2a; display: flex;">
+
+            <!-- Лого и хэдер -->
+            <div style="display: flex; width: 37vw;">
+                <img src="images/logo.png" class="logo">
+                <div class="navHeader">Experimental testing platform</div>
+            </div>
+
+            <!-- Пока пусто -->
+            <div style="width: 42vw;">
+
+            </div>
+
+            <!-- Кнопки админа -->
+            <div style="display: flex;" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERADMIN')">
+                <a style="width: 10vw;" class="adminBtn"
+                   href="/editing_tests">Редактирование тестов</a>
+                <a style="width: 7vw;"  class="adminBtn"
+                   href="/registration">Создать учётку</a>
+            </div>
+
+            <!-- Выход -->
+            <div style="display: flex; width: 4vw; margin-left: auto;" sec:authorize="isAuthenticated()">
+                <a class="adminBtn" href="/logout">Выйти</a>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

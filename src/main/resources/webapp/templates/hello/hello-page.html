@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello Page</title>
+    <link href="hello.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div th:insert="~{fragments/navbar :: navbar}"></div>
+
+    <!-- Content -->
+    <div th:insert="~{hello/hello-content :: content}"></div>
+
+</body>
+</html>
