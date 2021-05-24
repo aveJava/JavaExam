@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editing tests content</title>
+</head>
+<body>
+
+    <div th:fragment="content"
+         th:with="TabName1 = 'TOPICS',
+                  TabName2 = 'NEW_QUESTION',
+                  TabName3 = 'VIEW_QUESTIONS',
+                  ControllerAddress = '/editing_tests/switch'">
+
+        <div class="container-fluid" style="background-color: darkgrey; display: inline-grid; width: 100%;">
+
+            <!-- Tabs -->
+            <span style="display: inline-block; margin: 2vw auto 2px; padding-bottom: 5px; z-index: 5;">
+                <a th:class="'' + ${tab.name() == TabName1 ? 'tab activeTab border' : 'tab'}"
+                   th:href="${ControllerAddress + '?tab=' + TabName1}">Темы и разделы</a>
+
+                <a th:class="'' + ${tab.name() == TabName2 ? 'tab activeTab border' : 'tab'}"
+                   th:href="${ControllerAddress + '?tab=' + TabName2}">Новый вопрос</a>
+
+                <a th:class="'' + ${tab.name() == TabName3 ? 'tab activeTab border' : 'tab'}"
+                   th:href="${ControllerAddress + '?tab=' + TabName3}">Просмотр вопросов</a>
+            </span>
+
+            <!-- Content -->
+            <div class="container-fluid contentContainer border">
+                <div class="row" style="height: 1vw"></div>     <!-- Отступ сверху -->
+                <div class="row">
+                    <div class="col-1"></div>           <!-- Отступ слева -->
+                    <div class="col-10" style="width: 75vw; margin: 0 auto;"><br>
+
+                        <!-- TOPICS -->
+                        <div th:if="${tab.name() == TabName1}">
+                            <!-- FieldsOfKnowledge and Topics -->
+                            <div class="block">
+                                <!-- FieldsOfKnowledge -->
+                                <div style="width: 50vw">
+                                    <div style="font-size: 1.2vw; font-weight: 700;">Разделы</div><br>
+                                    <div style="margin-left: 5vw">
+                                        <th:block th:each="field : ${fieldsOfKnowledge}">
+                                            [[${numbering.getNumber() + '. ' + field.getName()}]] <br>
+                                        </th:block>
+                                    </div>
+                                </div>
+                                <!-- Forms -->
+                                <div style="width: 25vw">
+                                    <p class="formLabel" style="margin-top: 0">Создать новый раздел</p>
+                                    <form th:method="POST" action="/entities/exam_question_field_of_knowledge">
+                                        <p style="width: 150px; display: inline-block;">Имя нового раздела</p>
+                                        <input type="text" name="name">
+                                        <input type="submit" value="Создать" style="width: 75px;">
+                                    </form>
+
+                                    <p class="formLabel">Изменить имя раздела</p>
+                                    <form th:method="PATCH" action="/entities/exam_question_field_of_knowledge">
+                                        <p style="width: 150px; display: inline-block;">Номер раздела</p>
+                                        <input type="text" name="number">
+                                        <p style="width: 150px; display: inline-block; margin-top: 0;">Новое имя раздела</p>
+                                        <input type="text" name="name">
+                                        <input type="submit" value="Изменить" style="width: 75px;">
+                                    </form>
+
+                                    <p class="formLabel">Удалить раздел</p>
+                                    <form th:method="DELETE" action="/entities/exam_question_field_of_knowledge">
+                                        <p style="width: 150px; display: inline-block;">Номер раздела</p>
+                                        <input type="text" name="number">
+                                        <input type="submit" value="Удалить" style="width: 75px;">
+                                    </form>
+                                </div>
+                            </div>
+
+                            [[${numbering.reset()}]]
+
+                            <div class="block">
+                                <!-- Topics -->
+                                <div style="width: 50vw">
+                                    <div style="font-size: 1.2vw; font-weight: 700;">Темы</div><br>
+                                    <div style="margin-left: 5vw">
+                                        <th:block th:each="topic : ${topics}">
+                                            [[${numbering.getNumber() + '. ' + topic.getName() + ' (' + topic.getFieldOfKnowledge().getName() + ')'}]]<br>
+                                        </th:block>
+                                    </div>
+                                </div>
+                                <!-- Forms -->
+                                <div style="width: 25vw">
+                                    <p class="formLabel" style="margin-top: 0">Создать новую тему</p>
+                                    <form th:method="POST" action="/entities/exam_question_topics">
+                                        <p style="width: 150px; display: inline-block;">Имя новой темы</p>
+                                        <input type="text" name="name">
+                                        <p style="width: 150px; display: inline-block; margin-top: 0;">Раздел</p>
+                                        <select name="foKn" style="width: 177px; height: 21px;">
+                                            <th:block th:each="field : ${fieldsOfKnowledge}">
+                                                <option th:text="${field.getName()}"></option>
+                                            </th:block>
+                                        </select>
+                                        <input type="submit" value="Создать" style="width: 75px;">
+                                    </form>
+
+                                    <p class="formLabel">Изменить тему</p>
+                                    <form th:method="PATCH" action="/entities/exam_question_topics">
+                                        <p style="width: 150px; display: inline-block;">Номер темы</p>
+                                        <input type="text" name="number">
+                                        <p style="width: 150px; display: inline-block; margin-top: 0;">Новое имя темы</p>
+                                        <input type="text" name="name"  placeholder="Использовать старое">
+                                        <p style="width: 150px; display: inline-block; margin-top: 0;">Новый раздел темы</p>
+                                        <select name="foKn" style="width: 177px; height: 21px;">
+                                            <option selected>Использовать старый</option>
+                                            <th:block th:each="field : ${fieldsOfKnowledge}">
+                                                <option th:text="${field.getName()}"></option>
+                                            </th:block>
+                                        </select>
+                                        <input type="submit" value="Изменить" style="width: 75px;">
+                                    </form>
+
+                                    <p class="formLabel">Удалить тему</p>
+                                    <form th:method="DELETE" action="/entities/exam_question_topics">
+                                        <p style="width: 150px; display: inline-block;">Номер темы</p>
+                                        <input type="text" name="number">
+                                        <input type="submit" value="Удалить" style="width: 75px;">
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- NEW_QUESTION -->
+                        <div th:if="${tab.name() == TabName2}"></div>
+
+                        <!-- VIEW_QUESTIONS -->
+                        <div th:if="${tab.name() == TabName3}"></div>
+
+                    </div>
+                    <div class="col-1"></div>           <!-- Отступ справа -->
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
