@@ -63,4 +63,9 @@ form {
     border-radius: 5px;
 }
 
+textarea {
+    width: 25vw;
+    height: 5vw;
+}
+
 

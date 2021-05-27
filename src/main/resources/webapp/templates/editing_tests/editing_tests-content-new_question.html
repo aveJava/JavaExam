@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New question</title>
+</head>
+<body>
+
+    <div th:fragment="new_question">
+
+        <form th:method="POST" action="/entities/exam_questions" th:object="${model}">
+
+            <div style="display: inline-block; width: 25vw;">
+                <p style="width: 150px; display: inline-block; margin-top: 30px;">Раздел</p>
+                <select name="fieldOfKnowledge" style="width: 177px; height: 21px;">
+                    <option th:if="${model.getFieldOfKnowledge() != null}" selected th:text="${model.getFieldOfKnowledge()}"></option>
+                    <th:block th:each="field : ${fieldsOfKnowledge}">
+                        <option th:if="${field != field.getName()}">[[${field.getName()}]]</option>
+                    </th:block>
+                </select>
+
+                <br>
+
+                <p style="width: 150px; display: inline-block; margin-top: 0;">Тема</p>
+                <select name="topic" style="width: 177px; height: 21px;">
+                    <option th:if="${model.getTopic() != null}" selected th:text="${model.getTopic()}"></option>
+                    <th:block th:each="topic : ${topics}">
+                        <option th:if="${topic != topic.getName()}">[[${topic.getName()}]]</option>
+                    </th:block>
+                </select>
+
+                <br>
+
+                <p style="width: 150px; display: inline-block; margin-top: 1vw;">Вопрос</p>
+            </div>
+
+            <div style="display: inline-block; width: 25vw; vertical-align: top; color: brown;">
+                <p th:each="error : ${errors}"><img src="images/warning.jpg" style="width: 22px;"> [[${error}]]</p>
+            </div>
+
+            <textarea th:field="*{question}" style="width: 70vw;"></textarea>
+
+            <br>
+
+            <p style="width: 150px; display: inline-block; margin: 0.7vw 0 0.2vw;">Ответ №1</p> <p style="width: 150px; display: inline-block; margin-top: 0; margin: 0.7vw 0 0.2vw 37vw;">Ответ №3</p> <br>
+            <textarea th:field="*{answer1}"></textarea>
+            <div style="display: inline-block; width: 10vw; text-align: center; margin: 0vw 4.6vw 0;">
+                <p style="">Номер правильного ответа</p>
+                <input th:field="*{correctAnswerNumber}">
+            </div>
+            <textarea th:field="*{answer3}"></textarea>
+
+            <br>
+
+            <p style="width: 150px; display: inline-block; margin: 0.7vw 0 0.2vw;">Ответ №2</p> <p style="width: 150px; display: inline-block; margin-top: 0; margin: 0.7vw 0 0.2vw 37vw;">Ответ №4</p> <br>
+            <textarea th:field="*{answer2}"></textarea>
+            <textarea th:field="*{answer4}" style="margin-left: 19.5vw;"></textarea>
+
+            <br>
+
+            <input type="submit" value="Создать вопрос" style="margin: 1vw 32.2vw;">
+
+        </form>
+
+    </div>
+
+</body>
+</html>

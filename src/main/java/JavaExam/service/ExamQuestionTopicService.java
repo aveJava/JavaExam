@@ -3,7 +3,6 @@ package JavaExam.service;
 import JavaExam.domain.ExamQuestionFieldOfKnowledge;
 import JavaExam.domain.ExamQuestionTopic;
 import JavaExam.repository.ExamQuestionTopicRepo;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,12 +28,16 @@ public class ExamQuestionTopicService {
         return topicRepo.findByFieldOfKnowledge(fieldOfKnowledge);
     }
 
+    public ExamQuestionTopic findByFoKnNameAndName(String foKnName, String topicName) {
+        return topicRepo.findByFieldOfKnowledgeNameAndName(foKnName, topicName);
+    }
+
     public List<ExamQuestionTopic> findByNameContaining(String nameInclusion) {
         return topicRepo.findByNameContainingIgnoreCase(nameInclusion);
     }
 
     public boolean hasFindByFieldOfKnowledgeAndFindByName(ExamQuestionFieldOfKnowledge fieldOfKnowledge, String name) {
-        return topicRepo.countFindByFieldOfKnowledgeAndFindByName(fieldOfKnowledge, name) > 0;
+        return topicRepo.countFindByFieldOfKnowledgeAndName(fieldOfKnowledge, name) > 0;
     }
 
     public boolean save(ExamQuestionTopic topic) {
