@@ -22,8 +22,12 @@
                 <a th:class="'' + ${tab.name() == TabName2 ? 'tab activeTab border' : 'tab'}"
                    th:href="${ControllerAddress + '?tab=' + TabName2}">Новый вопрос</a>
 
-                <a th:class="'' + ${tab.name() == TabName3 ? 'tab activeTab border' : 'tab'}"
+                <a th:class="'' + ${tab.name() == TabName3 && editing == null ? 'tab activeTab border' : 'tab'}"
                    th:href="${ControllerAddress + '?tab=' + TabName3}">Просмотр вопросов</a>
+
+                <a th:if="${tab.name() == TabName3 && editing != null}"
+                   th:class="'tab activeTab border'"
+                   th:href="'#'">Редактируемый вопрос</a>
             </span>
 
             <!-- Content -->
@@ -37,10 +41,17 @@
                         <div th:if="${tab.name() == TabName1}" th:insert="~{editing_tests/editing_tests-content-topics :: topics}"></div>
 
                         <!-- NEW_QUESTION -->
-                        <div th:if="${tab.name() == TabName2}" th:insert="~{editing_tests/editing_tests-content-new_question :: new_question}"></div>
+                        <div th:if="${tab.name() == TabName2}"
+                             th:with="method = 'POST', action = '/entities/exam_questions'"
+                             th:insert="~{editing_tests/editing_tests-content-new_question :: new_question}"></div>
 
                         <!-- VIEW_QUESTIONS -->
-                        <div th:if="${tab.name() == TabName3}" th:insert="~{editing_tests/editing_tests-content-view_questions :: view_questions}"></div>
+                        <div th:if="${tab.name() == TabName3 && editing == null}" th:insert="~{editing_tests/editing_tests-content-view_questions :: view_questions}"></div>
+
+                        <!-- Edit question  -->
+                        <div th:if="${tab.name() == TabName3 && editing != null}"
+                             th:with="method = 'PATCH', action = '/entities/exam_questions/' + ${editId}"
+                             th:insert="~{editing_tests/editing_tests-content-new_question :: new_question}"></div>
 
                     </div>
                     <div class="col-1"></div>           <!-- Отступ справа -->

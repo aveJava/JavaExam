@@ -10,6 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 public class ExamQuestionModel {
+    private Long id;
     private String fieldOfKnowledge;
     private String topic;
     private String question;
@@ -21,6 +22,7 @@ public class ExamQuestionModel {
 
     public ExamQuestion toEntity(ExamQuestionTopicService topicService) {
         ExamQuestion entity = new ExamQuestion();
+        entity.setId(id);
         entity.setTopic(topicService.findByFoKnNameAndName(fieldOfKnowledge, topic));
         entity.setQuestion(question);
         entity.setAnswers(List.of(answer1, answer2, answer3, answer4));

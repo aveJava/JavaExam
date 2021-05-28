@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Toolbar</title>
+</head>
+<body>
+
+    <!-- Tулбар для вкладки просмотра вопросов -->
+    <div th:fragment="toolbar-view"
+         th:with="toolbarControllerAddress='/editing_tests/toolbar'">
+
+        <div th:insert="~{fragments/toolbar :: main}"></div>
+
+    </div>
+
+
+    <!-- Ненастроенный тулбар (шаблон тулбара) -->
+    <div th:fragment="main">
+
+        <link href="toolbar.css" rel="stylesheet">
+
+        <div class="toolbarContainer">
+            <!-- Номер текущей страницы -->
+            <div class="fieldBar" style="margin: auto 0.7vw; width: 3vw;">
+                [[${thisPage}]] of [[${maxPage}]]
+            </div>
+
+            <!-- Номера страниц -->
+            <form class="myToolbar" th:action="${toolbarControllerAddress} + '/NumberButtons'" method="get" style="display: inline-flex; width: 12vw; border: none; padding-left: 1vw;">
+                <input type="submit" class="btnBar" name="title" value="<<" style="border-radius: 0.35vw 0 0 0.35vw;"/>
+                <input type="submit" class="btnBar" name="title" value="<" style="border-radius: 0;"/>
+                <div class="fieldBar fb" th:text="${thisPage}" style="border-radius: 0; width: 2vw"></div>
+                <input type="submit" class="btnBar" name="title" value=">" style="border-radius: 0;"/>
+                <input type="submit" class="btnBar" name="title" value=">>" style="border-radius: 0 0.35vw 0.35vw 0; padding: 0;"/>
+            </form>
+
+            <!-- Выпадающий список -->
+            <select onchange="window.location.href = this.options[this.selectedIndex].value" style="border-radius: 5px; background: darkgreen; color: aliceblue; width: 3vw; padding: 0 0.3vw;">
+                <option selected>[[${page.getSize()}]]</option>
+                <option th:value="${toolbarControllerAddress} + '/PageSize?size=5'">5</option>
+                <option th:value="${toolbarControllerAddress} + '/PageSize?size=10'">10</option>
+                <option th:value="${toolbarControllerAddress} + '/PageSize?size=15'">15</option>
+                <option th:value="${toolbarControllerAddress} + '/PageSize?size=20'">20</option>
+            </select>
+        </div>
+
+    </div>
+</body>
+</html>

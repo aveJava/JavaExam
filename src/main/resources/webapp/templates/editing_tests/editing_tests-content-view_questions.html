@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>View questions</title>
+</head>
+<body>
+
+    <div th:fragment="view_questions">
+
+        <table class="table" style="border-spacing: 0;">
+            <!-- Шапка -->
+            <thead class="table-dark" style="background: darkgreen; color: mediumspringgreen;">
+                <tr style="height: 30px;">
+                    <th scope="col" width="10%">Раздел</th>
+                    <th scope="col" width="10%">Тема</th>
+                    <th scope="col" width="70%">Вопрос</th>
+                    <th scope="col" width="5%" class="centerAline">Редактировать</th>
+                    <th scope="col" width="5%" class="centerAline">Удалить</th>
+                </tr>
+            </thead>
+            <!-- Строка -->
+            <tbody th:each="entry : ${page}">
+                <th width="10%">[[${entry.getTopic().getFieldOfKnowledge().getName()}]]</th>
+                <th width="10%">[[${entry.getTopic().getName()}]]</th>
+                <th width="70%" style="text-align: left; font-weight: 300;">[[${entry.getQuestion()}]]</th>
+                <th width="5%" class="centerAline">
+                    <img src="images/edit.png" class="editButton" th:onclick="'location.href=\'/entities/exam_questions/' + ${entry.getId()} + '/edit\''">
+                </th>
+                <th scope="col" width="5%" class="centerAline">
+                    <form th:action="'/entities/exam_questions/' + ${entry.getId()}" th:method="delete" style="border: none; padding: 0;">
+                        <button type="submit" style="border: 0; padding: 0; width: 0; margin-right: 0.7vw;">
+                            <img src="images/delete.png" class="deleteButton">
+                        </button>
+                    </form>
+                </th>
+            </tbody>
+        </table>
+
+        <div th:insert="~{fragments/toolbar :: toolbar-view}"></div>
+
+    </div>
+
+</body>
+</html>

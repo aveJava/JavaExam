@@ -1,0 +1,66 @@
+.toolbarContainer {
+    display: flex;
+    text-align: center;
+    width: 20vw;
+    margin: 1vw auto;
+}
+
+.myToolbar {
+    display: contents;
+}
+
+.btnBar {
+    height: 2vw;
+    width: 2vw;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9vw;
+    background: darkgreen;
+    color: aliceblue;
+    border: none;
+}
+
+.btnBar:hover {
+    border-style: solid;
+    border-width: 1px
+}
+
+.fb:hover {
+    font-size: 1.1vw;
+    cursor: default;
+}
+
+.fieldBar {
+    border-radius: 5px;
+    background: darkgreen;
+    color: aliceblue;
+    height: 2vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btnBarPage {
+    border-color: dimgray;
+    color: white;
+    background-color: dimgray;
+}
+
+.btnDropdown {
+    width: 3vw;
+    border-radius: 0.35vw;
+}
+
+/* Подгоняет ширину выпадающего списка */
+.dropdown-menu {
+    /*min-width: 3.8rem;*/
+    font-size: 0.9vw;
+    min-width: 3vw;
+    padding: 0.2vw 1.0vw;
+}
+
+.dropdown-item {
+    padding: 0;
+}

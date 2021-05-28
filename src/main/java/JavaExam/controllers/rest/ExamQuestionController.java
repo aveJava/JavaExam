@@ -9,9 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.DataBinder;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
@@ -36,12 +34,37 @@ public class ExamQuestionController {
         if (isValid) {
             ExamQuestion question = model.toEntity(topicService);
             questionService.save(question);
+            redirectAttr.addFlashAttribute("msgs", List.of("Вопрос сохранен!"));
         }
 
         return "redirect:/editing_tests";
     }
 
+    @GetMapping("{id}/edit")
+    public String updateForm(@PathVariable("id") Long id, RedirectAttributes redirectAttr) {
+        redirectAttr.addFlashAttribute("model", questionService.get(id).toModel());
+        redirectAttr.addFlashAttribute("editing", true);
+        redirectAttr.addFlashAttribute("editId", id);
+        return "redirect:/editing_tests";
+    }
 
+    @PatchMapping("{id}")
+    public String update(@PathVariable("id") Long id, @ModelAttribute("model") ExamQuestionModel model, RedirectAttributes redirectAttr) {
+        boolean isValid = validateAndPrepareRedirectAttributesIfInvalid(model, redirectAttr);
+        if (isValid) {
+            ExamQuestion question = model.toEntity(topicService);
+            questionService.update(question);
+            return "redirect:/editing_tests/switch?tab=VIEW_QUESTIONS";
+        }
+
+        return "redirect:/editing_tests";
+    }
+
+    @DeleteMapping("{id}")
+    public String delete(@PathVariable("id") Long id) {
+        questionService.delete(questionService.get(id));
+        return "redirect:/editing_tests";
+    }
 
     // валидирует заполненную форму создания или редактирования вопроса
     // если данные не валидны, подготавливает RedirectAttributes для перенаправления на повторное заполнение формы

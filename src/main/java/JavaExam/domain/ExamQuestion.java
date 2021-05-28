@@ -1,5 +1,6 @@
 package JavaExam.domain;
 
+import JavaExam.model.ExamQuestionModel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,6 +37,23 @@ public class ExamQuestion {
 
     @Column(name = "correct_answer_number")
     private byte correctAnswerNumber;
+
+    public ExamQuestionModel toModel() {
+        ExamQuestionModel model = new ExamQuestionModel();
+        model.setId(id);
+        model.setFieldOfKnowledge(topic.fieldOfKnowledge.name);
+        model.setTopic(topic.name);
+        model.setQuestion(question);
+        model.setAnswer1(answers.get(0));
+        model.setAnswer2(answers.get(1));
+        if (answers.size() > 2)
+        model.setAnswer3(answers.get(2));
+        if (answers.size() > 3)
+        model.setAnswer4(answers.get(3));
+        model.setCorrectAnswerNumber(String.valueOf(correctAnswerNumber));
+
+        return model;
+    }
 
 }
 

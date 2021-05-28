@@ -4,16 +4,23 @@ import JavaExam.domain.ExamQuestion;
 import JavaExam.domain.ExamQuestionFieldOfKnowledge;
 import JavaExam.domain.ExamQuestionTopic;
 import JavaExam.repository.ExamQuestionRepo;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class ExamQuestionService {
+    ExamQuestionFieldOfKnowledgeService foKnService;
+    ExamQuestionTopicService topicService;
 
     ExamQuestionRepo questionRepo;
 
-    public ExamQuestionService(ExamQuestionRepo questionRepo) {
+    public ExamQuestionService(ExamQuestionFieldOfKnowledgeService fieldOfKnowledgeService, ExamQuestionTopicService topicService, ExamQuestionRepo questionRepo) {
+        this.foKnService = fieldOfKnowledgeService;
+        this.topicService = topicService;
         this.questionRepo = questionRepo;
     }
 
@@ -27,6 +34,18 @@ public class ExamQuestionService {
 
     public List<ExamQuestion> getAllByTopic(ExamQuestionTopic topic) {
         return questionRepo.findByTopic(topic);
+    }
+
+    public Page<ExamQuestion> search(String foKnName, String topicName, int pageNumber, int pageSize) {
+        boolean isFoKnPresent = foKnName != null && !foKnName.isEmpty() && foKnService.getByName(foKnName) != null;
+        boolean isTopicPresent = isFoKnPresent && topicName != null && !topicName.isEmpty() && topicService.findByFoKnNameAndName(foKnName, topicName) != null;
+
+        Sort sort = Sort.by(Sort.Direction.ASC, isTopicPresent ? "id" : "topic");
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize, sort);
+        if (isFoKnPresent && !isTopicPresent) return questionRepo.findByTopicFieldOfKnowledgeName(foKnName, pageRequest);
+        if (isTopicPresent) return questionRepo.findByTopicFieldOfKnowledgeNameAndTopicName(foKnName, topicName, pageRequest);
+
+        return questionRepo.findAll(pageRequest);
     }
 
     public List<ExamQuestion> getAllByFieldOfKnowledge(ExamQuestionFieldOfKnowledge fieldOfKnowledge) {
@@ -55,5 +74,4 @@ public class ExamQuestionService {
         questionRepo.delete(question);
         return true;
     }
-
 }
