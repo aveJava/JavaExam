@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin key</title>
+
+    <link rel="stylesheet" href="admin_key.css" type="text/css" />
+</head>
+<body style="background-image: url(images/admin-key-bg.jpg)">
+
+    <form method="post" action="/admin-login">
+
+        <!-- Кнопка входа -->
+        <div style="background-color: black; height: 50px; display: flex;">
+            <input type="submit" class="submit" value="Вход">
+        </div>
+
+        <!-- Кнопки-ключи -->
+        <div style="height: 90vh; width: 100vw; display: flex;">
+            <div style="margin: auto; width: 650px">
+
+                <!-- Первый ряд -->
+                <div style="display: flex; margin: 0 auto;">
+                    <div class="switch demo4">
+                        <input type="checkbox" name="checkbox1">
+                        <label><i class='icon-off'></i></label>
+                    </div>
+                    <div class="switch demo4">
+                        <input type="checkbox" name="checkbox2">
+                        <label><i class='icon-off'></i></label>
+                    </div>
+                    <div class="switch demo4">
+                        <input type="checkbox" name="checkbox3">
+                        <label><i class='icon-off'></i></label>
+                    </div>
+                </div>
+
+                <!-- Второй ряд -->
+                <div style="display: flex; margin: 0 auto;">
+                    <div class="switch demo4">
+                        <input type="checkbox" name="checkbox4">
+                        <label><i class='icon-off'></i></label>
+                    </div>
+                    <div class="switch demo4">
+                        <input type="checkbox" name="checkbox5">
+                        <label><i class='icon-off'></i></label>
+                    </div>
+                    <div class="switch demo4">
+                        <input type="checkbox" name="checkbox6">
+                        <label><i class='icon-off'></i></label>
+                    </div>
+                </div>
+
+                <!-- Третий ряд -->
+                <div style="display: flex; margin: 0 auto;">
+                    <div class="switch demo4">
+                        <input type="checkbox" name="checkbox7">
+                        <label><i class='icon-off'></i></label>
+                    </div>
+                    <div class="switch demo4">
+                        <input type="checkbox" name="checkbox8">
+                        <label><i class='icon-off'></i></label>
+                    </div>
+                    <div class="switch demo4">
+                        <input type="checkbox" name="checkbox9">
+                        <label><i class='icon-off'></i></label>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </form>
+
+</body>
+</html>

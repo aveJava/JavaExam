@@ -37,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // настройка прав доступа к ресурсам (такие-то url будут доступны для таких-то ролей)
                 .authorizeRequests()            // возвращает конфигуратор ограничений доступа
                     // адреса, доступные только админам и суперадминам
-                    .antMatchers("/editing_tests/**", "/registration/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_SUPERADMIN")
+                    .antMatchers("/admin/**", "/editing_tests/**", "/registration/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_SUPERADMIN")
                     // доступ к тестированию разрешен только аутентифицированным пользователям
                     .antMatchers("/testing**").authenticated()
                     // ко всем остальным страницам разрешить доступ всем
