@@ -23,6 +23,6 @@ public class ExamQuestionFieldOfKnowledge {
     private Long id;
 
     @Column(name = "name")
-    String name;
+    private String name;
 
 }

@@ -32,6 +32,10 @@ public class User implements UserDetails {
 
     private boolean enabled;
 
+    @JoinColumn(name = "session_schema")
+    @ManyToOne
+    private ExamSessionSchema sessionSchema;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn (name = "user_id"),

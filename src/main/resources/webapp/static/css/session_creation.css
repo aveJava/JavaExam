@@ -1,0 +1,28 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.content {
+    background-color: darkgrey;
+    width: 100%;
+    min-height: calc(100vh - 50px);
+    display: flex;
+    font-size: 20px;
+}
+
+.UnitFoKn {
+    width: 7vw;
+    margin: auto 3vw auto 0;
+    height: 1.2vw;
+}
+
+.UnitTopicAndQuantity {
+    margin-right: 1vw;
+    width: 6vw;
+    text-align: center;
+}
+
+.UnitQuestionQuantity {
+
+}

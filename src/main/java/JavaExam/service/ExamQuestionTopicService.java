@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public class ExamQuestionTopicService {
 
-    ExamQuestionTopicRepo topicRepo;
+    private final ExamQuestionTopicRepo topicRepo;
 
     public ExamQuestionTopicService(ExamQuestionTopicRepo topicRepo) {
         this.topicRepo = topicRepo;
@@ -26,6 +26,9 @@ public class ExamQuestionTopicService {
 
     public List<ExamQuestionTopic> findAllByFieldOfKnowledge(ExamQuestionFieldOfKnowledge fieldOfKnowledge) {
         return topicRepo.findByFieldOfKnowledge(fieldOfKnowledge);
+    }
+    public List<ExamQuestionTopic> findAllByFoKnName(String foKnName) {
+        return topicRepo.findByFieldOfKnowledgeName(foKnName);
     }
 
     public ExamQuestionTopic findByFoKnNameAndName(String foKnName, String topicName) {
