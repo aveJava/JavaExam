@@ -14,8 +14,10 @@ import java.util.List;
 @Getter
 @Setter
 public class ExamSessionSchemaUnitModel {
+    private Long id;
+
     // Id схемы, к которой относится данный юнит
-    private Long sessionSchema;
+    private Long sessionSchemaId;
 
     // Раздел
     private String foKn;
@@ -29,7 +31,8 @@ public class ExamSessionSchemaUnitModel {
     public ExamSessionSchemaUnit toEntity(ExamSessionSchemaService schemaService, ExamQuestionFieldOfKnowledgeService foKnService, ExamQuestionTopicService topicService) {
         ExamSessionSchemaUnit entity = new ExamSessionSchemaUnit();
 
-        if (sessionSchema != null) entity.setSessionSchema(schemaService.get(sessionSchema).get());
+        entity.setId(id);
+        entity.setSessionSchema(schemaService.get(sessionSchemaId).get());
         entity.setFoKn(foKnService.getByName(foKn));
         List<ExamQuestionTopic> topicsList = new ArrayList<>(topics.size());
         for (int i = 0; i < topics.size(); i++) {

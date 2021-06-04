@@ -29,16 +29,21 @@ public class ExamSessionSchema {
 
     private String name;
 
-    @OneToMany (mappedBy = "sessionSchema")
+    @OneToMany (mappedBy = "sessionSchema", fetch = FetchType.EAGER)
     private List<ExamSessionSchemaUnit> units;
 
     public ExamSessionSchemaModel toModel() {
         ExamSessionSchemaModel model = new ExamSessionSchemaModel();
 
+        model.setId(id);
         model.setName(name);
-        List<ExamSessionSchemaUnitModel> unitsModels = new ArrayList<>(units.size());
-        for (int i = 0; i < units.size(); i++) {
-            unitsModels.add(units.get(i).toModel());
+        List<ExamSessionSchemaUnitModel> unitsModels = new ArrayList<>(10);
+        if (units != null) {
+            for (int i = 0; i < units.size(); i++) {
+                unitsModels.add(units.get(i).toModel());
+            }
+        } else {
+
         }
         model.setUnits(unitsModels);
 

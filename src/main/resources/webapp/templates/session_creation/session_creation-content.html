@@ -38,7 +38,7 @@
                 </div>
 
                 <!-- Форма редактирования схемы сессии -->
-                <form method="post" th:object="${SchemaModel}">
+                <form method="post" action="/session_creation/update_schema" th:object="${SchemaModel}" name="SessionSchemaEditingForm">
                     <input type="hidden" name="id" th:value="${SchemaModel.getId()}">
                     <!-- Вывод всех юнитов -->
                     <div th:each="unitNumber : ${#numbers.sequence(0, units.size() - 1)}" style="display: flex; margin: 1vw 0"
@@ -48,12 +48,11 @@
                         <input type="hidden" th:name="'units[' + ${unitNumber} + '].sessionSchemaId'" th:value="${units.get(unitNumber).getSessionSchemaId()}">
 
                         <!-- Раздел -->
-                        <select th:name="'units[' + ${unitNumber} + '].foKn'" class="UnitFoKn" onchange="window.location.href = this.options[this.selectedIndex].value">
-                            <option th:if="${unit.getFoKn() != null}"></option>
+                        <select th:name="'units[' + ${unitNumber} + '].foKn'" class="UnitFoKn" onchange="document.SessionSchemaEditingForm.submit();"> <!-- onchange="window.location.href = this.options[this.selectedIndex].value" -->
+                            <option th:if="${unit.getFoKn() != null && !unit.getFoKn().isEmpty()}"></option>
                             <option selected th:text="${unit.getFoKn()}"></option>
                             <th:block th:each="foKn : ${fieldsOfKn}">
-                                <option th:if="${!foKn.getName().equals(unit.getFoKn())}"
-                                        th:value="'/session_creation/change_schema_foKn?unit_number=' + ${unitNumber} + '&' + 'foKn_name=' + ${foKn.getName()}">[[${foKn.getName()}]]</option>
+                                <option th:if="${!foKn.getName().equals(unit.getFoKn())}">[[${foKn.getName()}]]</option>
                             </th:block>
                         </select>
                         <div>
@@ -76,7 +75,8 @@
                                                 <option>[[${topic.getName()}]]</option>
                                             </th:block>
                                         </select>
-                                        <input type="number" th:name="'units[' + ${unitNumber} + '].quantityQuestions[' + ${topicNumber} + ']'" style="width: 2vw;">
+                                        <input type="number" th:name="'units[' + ${unitNumber} + '].quantityQuestions[' + ${topicNumber} + ']'"
+                                               th:value="${unit.getQuantityQuestions() == null || unit.getQuantityQuestions().size() <= topicNumber ? '' : unit.getQuantityQuestions().get(topicNumber)}" style="width: 2vw;">
                                     </div>
                                 </div>
                             </div>
@@ -87,7 +87,7 @@
                         <label for="SchemaName" style="font-size: 14px;">Имя схемы (если ее нужно сохранить)</label>
                         <input type="text" id="SchemaName" name="name" th:value="${SchemaModel.getName()}" style="width: 8.3vw; margin: 0.7vw 40vw 0.7vw 0;">
                         <input type="submit" value="Сохранить схему" onclick='this.form.action="/session_schemes";'>
-                        <input type="submit" value="Создать сеанс по данной схеме" onclick='this.form.action="somethingelse";'>
+                        <input type="submit" value="Создать сеанс по данной схеме" onclick='this.form.action="тут_поменять_обязательно";'>
                     </div>
                 </form>
 

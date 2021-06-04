@@ -9,6 +9,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SelectBeforeUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public class ExamSessionSchemaUnit {
     public ExamSessionSchemaUnitModel toModel() {
         ExamSessionSchemaUnitModel model = new ExamSessionSchemaUnitModel();
 
-        if (sessionSchema != null) model.setSessionSchema(sessionSchema.getId());
+        if (sessionSchema != null) model.setSessionSchemaId(sessionSchema.getId());
         if (foKn != null) model.setFoKn(foKn.getName());
         if (topics != null) {
             List<String> topicsListStr = new ArrayList<>(topics.size());
@@ -78,7 +79,7 @@ final class ExamSessionSchemaTopicsConverter implements AttributeConverter<List<
     private static final String SEPARATOR = "※";
 
     @Autowired
-    ExamQuestionTopicService topicService;
+    private ApplicationContext context;
 
     @Override
     public String convertToDatabaseColumn(List<ExamQuestionTopic> examQuestionTopics) {
@@ -92,7 +93,7 @@ final class ExamSessionSchemaTopicsConverter implements AttributeConverter<List<
     public List<ExamQuestionTopic> convertToEntityAttribute(String s) {
         String[] topicsId = s.split(SEPARATOR);
         List<ExamQuestionTopic> topicList = Arrays.stream(topicsId)
-                .map(str -> topicService.get(Long.parseLong(str)))
+                .map(str -> context.getBean(ExamQuestionTopicService.class).get(Long.parseLong(str)))
                 .collect(Collectors.toList());
         return topicList;
     }

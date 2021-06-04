@@ -1,6 +1,6 @@
 package JavaExam.controllers.pages;
 
-import JavaExam.domain.ExamQuestionFieldOfKnowledge;
+import JavaExam.domain.ExamSessionSchema;
 import JavaExam.model.ExamSessionSchemaModel;
 import JavaExam.model.ExamSessionSchemaUnitModel;
 import JavaExam.service.ExamQuestionFieldOfKnowledgeService;
@@ -8,9 +8,7 @@ import JavaExam.service.ExamQuestionTopicService;
 import JavaExam.service.ExamSessionSchemaService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,21 +26,13 @@ public class SessionCreationController {
         this.foKnService = foKnService;
         this.topicService = topicService;
         this.schemaService = schemaService;
-
-        // создание дефолтной схемы на 3 юнита
-        ExamSessionSchemaUnitModel unitModel1 = new ExamSessionSchemaUnitModel();
-        unitModel1.setFoKn("");
-        ExamSessionSchemaUnitModel unitModel2 = new ExamSessionSchemaUnitModel();
-        unitModel2.setFoKn("");
-        ExamSessionSchemaUnitModel unitModel3 = new ExamSessionSchemaUnitModel();
-        unitModel3.setFoKn("");
-        schemaModel = new ExamSessionSchemaModel();
-        schemaModel.setUnits(List.of(unitModel1, unitModel2, unitModel3));
     }
 
     // отображает страницу
     @GetMapping
-    public String displayPage(Model model) {
+    public String displayPage(@RequestParam(name = "create_new", defaultValue = "false") boolean createNew, Model model) {
+        if (schemaModel == null || createNew) createDefaultScheme();
+
         model.addAttribute("SchemaModel", schemaModel);
         model.addAttribute("fieldsOfKn", foKnService.getAll());
         model.addAttribute("topicService", topicService);
@@ -54,7 +44,7 @@ public class SessionCreationController {
     @GetMapping("/new_schema")
     public String createNewSchema(@RequestParam("num_of_fields") Integer num) {
         if (num != null && num > 0 && num < 50) {
-            schemaModel = new ExamSessionSchemaModel();
+            schemaModel = new ExamSessionSchema().toModel();
             ArrayList<ExamSessionSchemaUnitModel> emptyUnits = new ArrayList<>(num);
             for (int i = 0; i < num; i++) {
                 ExamSessionSchemaUnitModel unitModel = new ExamSessionSchemaUnitModel();
@@ -66,15 +56,21 @@ public class SessionCreationController {
         return "redirect:/session_creation";
     }
 
-    // меняет FoKn (раздел) выбранного юнита схемы
-    @GetMapping("/change_schema_foKn")
-    public String changeSchemaFoKn(@RequestParam("unit_number") Integer num, @RequestParam("foKn_name") String name) {
-        boolean isNumPresent = num != null && num >= 0 && num < schemaModel.getUnits().size();
-        boolean isNamePresent = name != null && !name.isEmpty();
-        ExamQuestionFieldOfKnowledge foKn = isNamePresent && isNumPresent ? foKnService.getByName(name) : null;
-        if (foKn != null) {
-            schemaModel.getUnits().get(num).setFoKn(name);
+    // обновляет схему при изменении foKn какого-либо юнита в html-форме
+    @PostMapping("/update_schema")
+    public String updateSchema(@ModelAttribute("SchemaModel") ExamSessionSchemaModel model) {
+        if (model == null) return "redirect:/session_creation";
+
+        List<ExamSessionSchemaUnitModel> units = schemaModel.getUnits();
+        List<ExamSessionSchemaUnitModel> units1 = model.getUnits();
+        for (int i = 0; i < units.size(); i++) {
+            // если foKn юнита изменился, то сбросить все его топики и количества вопросов
+            if (!units.get(i).getFoKn().equals(units1.get(i).getFoKn())) {
+                units1.get(i).setTopics(new ArrayList<>());
+                units1.get(i).setQuantityQuestions(new ArrayList<>());
+            }
         }
+        schemaModel = model;
 
         return "redirect:/session_creation";
     }
@@ -86,5 +82,16 @@ public class SessionCreationController {
 //
 //    }
 
+    // создание дефолтной схемы на 3 юнита
+    private void createDefaultScheme() {
+        ExamSessionSchemaUnitModel unitModel1 = new ExamSessionSchemaUnitModel();
+        unitModel1.setFoKn("");
+        ExamSessionSchemaUnitModel unitModel2 = new ExamSessionSchemaUnitModel();
+        unitModel2.setFoKn("");
+        ExamSessionSchemaUnitModel unitModel3 = new ExamSessionSchemaUnitModel();
+        unitModel3.setFoKn("");
+        schemaModel = new ExamSessionSchema().toModel();
+        schemaModel.setUnits(List.of(unitModel1, unitModel2, unitModel3));
+    }
 
 }
