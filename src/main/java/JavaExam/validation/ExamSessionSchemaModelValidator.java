@@ -33,8 +33,10 @@ public class ExamSessionSchemaModelValidator implements Validator {
         String name = model.getName();
         if (name == null || name.isEmpty()) errors.rejectValue("name", "", "Нужно ввести имя схемы");
         else {
+            // если схема с таким именем уже есть в БД и их id не совпадают, или они сами не совпадают
             Optional<ExamSessionSchema> optional = schemaService.findByName(name);
-            if (optional.isPresent() && optional.get().getId().equals(model.getId()))
+            boolean isChanged = ExamSessionSchemaModel.isSchemaChanged(schemaService, model);
+            if (optional.isPresent() && (optional.get().getId() != model.getId() || isChanged))
                 errors.rejectValue("name", "", "Схема с таким именем уже есть в базе данных");
         }
 
@@ -48,6 +50,7 @@ public class ExamSessionSchemaModelValidator implements Validator {
         else {                  // проверка наличия хотя бы одного топика (если он есть, значит есть и foKn)
             List<String> topics = units.get(0).getTopics();
             String topic = Optional.ofNullable(topics)
+                    .filter(t -> t.size() > 0)
                     .map(t -> t.get(0))
                     .orElse(null);
             if (topic == null || topic.isEmpty()) {

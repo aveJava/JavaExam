@@ -22,21 +22,33 @@ public class ExamSessionSchemaService {
         return schemaRepository.findById(id);
     }
 
+    public List<ExamSessionSchema> getAll() { return schemaRepository.findAll(); }
+
+    public List<ExamSessionSchema> getAllSchemesWithIdAndNameOnly() {
+        return schemaRepository.getAllSchemasWithIdAndNameOnly();
+    }
+
     public Optional<ExamSessionSchema> findByName(String name) {
         return schemaRepository.findByName(name);
     }
 
     public void save(ExamSessionSchema schema) {
+        ExamSessionSchema savedSchema = schemaRepository.save(schema);
+        List<ExamSessionSchemaUnit> units = schema.getUnits();
+        for (ExamSessionSchemaUnit unit : units) {
+            unit.setSessionSchema(savedSchema);
+            unitService.save(unit);
+        }
+    }
+
+    public boolean saveIfNameNotUsed(ExamSessionSchema schema) {
         String name = schema.getName();
         boolean isNamePresent = name != null && !name.isEmpty();
         boolean isNameWasNotUsed = isNamePresent && (!findByName(name).isPresent() || findByName(name).get().getId() == schema.getId());
         if (isNameWasNotUsed) {
-            ExamSessionSchema savedSchema = schemaRepository.save(schema);
-            List<ExamSessionSchemaUnit> units = schema.getUnits();
-            for (ExamSessionSchemaUnit unit : units) {
-                unit.setSessionSchema(savedSchema);
-                unitService.save(unit);
-            }
+            save(schema);
+            return true;
         }
+        return false;
     }
 }

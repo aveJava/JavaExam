@@ -42,12 +42,29 @@ public class ExamSessionSchemaController {
     public String create(@ModelAttribute("SchemaModel") ExamSessionSchemaModel model, RedirectAttributes redirectAttr) {
         boolean isValid = validateAndPrepareRedirectAttributesIfInvalid(model, redirectAttr);
         if (isValid) {
+            // если эта схема была загружена из БД и отредактирована, а не создана с нуля
+            if (model.getId() != null) {
+                boolean isChanged = ExamSessionSchemaModel.isSchemaChanged(schemaService, model);
+                if (!isChanged) {
+                    String schemaNameFromDB = schemaService.get(model.getId()).get().getName();
+                    if (model.getName().equals(schemaNameFromDB))
+                        redirectAttr.addFlashAttribute("msgs", List.of("Сохранения не произошло, т.к. точно такая же схема с этим же именем уже есть в БД"));
+                    else
+                        redirectAttr.addFlashAttribute("msgs", List.of("Сохранения не произошло, т.к. точно такая же схема есть в БД под именем '" + schemaNameFromDB + "'"));
+                    redirectAttr.addFlashAttribute("SchemaModel", model);   // поскольку сохранения не произошло, возвращаем пользователю модель в том состоянии, в котором он пытался ее сохранить
+
+                    return "redirect:/session_creation";
+                }
+                else model.setId(null);     // чтобы схема была записана как новая и не затерла свой прототип
+            }
+            // если это новая схема
             ExamSessionSchema schema = model.toEntity(unitService, schemaService, foKnService, topicService);
             schemaService.save(schema);
-            redirectAttr.addFlashAttribute("msgs", List.of("Вопрос сохранен!"));
+            redirectAttr.addFlashAttribute("msgs", List.of("Схема сохранена!"));
+            return "redirect:/session_creation?create_new=true";
         }
 
-        return "redirect:/session_creation?create_new=true";
+        return "redirect:/session_creation";
     }
 
     // валидирует заполненную форму создания или редактирования вопроса

@@ -12,6 +12,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Getter
 @Setter
@@ -61,5 +62,43 @@ public class ExamSessionSchemaModel {
         entity.setUnits(units);
 
         return entity;
+    }
+
+    // проверяет, вносились ли в модель, загруженную из БД, изменения
+    public static boolean isSchemaChanged(ExamSessionSchemaService schemaService, ExamSessionSchemaModel model) {
+        if (model.getId() == null) return false;
+
+        boolean isChanged = false;
+        Optional<ExamSessionSchema> optional = schemaService.get(model.getId());
+        if (!optional.isPresent()) return false;
+        ExamSessionSchemaModel schemaModelFromDB = optional.get().toModel();
+        List<ExamSessionSchemaUnitModel> unitsFromDB = schemaModelFromDB.getUnits();
+        List<ExamSessionSchemaUnitModel> unitsFromModel = model.getUnits();
+        if (unitsFromModel == null || unitsFromModel.size() != unitsFromDB.size()) isChanged = true;
+        if (!isChanged) {
+            // сравнение юнитов по foKn и количеству тем
+            for (int i = 0; i < unitsFromDB.size(); i++) {
+                ExamSessionSchemaUnitModel unit1 = unitsFromDB.get(i);
+                ExamSessionSchemaUnitModel unit2 = unitsFromModel.get(i);
+                if (!unit1.getFoKn().equals(unit2.getFoKn()) || unit1.getTopics().size() != unit2.getTopics().size() ||
+                        unit1.getQuantityQuestions().size() != unit1.getQuantityQuestions().size()) {
+                    isChanged = true;
+                    break;
+                }
+                // сравнение топиков и количеств вопросов
+                List<String> topics1 = unit1.getTopics();
+                List<String> topics2 = unit2.getTopics();
+                List<Integer> qua1 = unit1.getQuantityQuestions();
+                List<Integer> qua2 = unit2.getQuantityQuestions();
+                for (int j = 0; j < topics1.size(); j++) {
+                    if (!topics1.get(j).equals(topics2.get(j)) || qua1.get(j) != qua2.get(j)) {
+                        isChanged = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return isChanged;
     }
 }

@@ -10,19 +10,30 @@
 
         <div style="margin: 2vw 12.5vw;">
 
-            <div style="font-size: 38px; font-style: italic; font-weight: 700;">Создание нового сеанса</div>
+            <div style="width: 40vw; display: inline-block; margin-bottom: 2vw;">
+                <div style="font-size: 38px; font-style: italic; font-weight: 700;">Создание нового сеанса</div>
 
-            <br><br>
+                <br><br>
 
-            <div>
-                <span>Загрузить схему</span>
-                <select style="width: 7vw; margin-right: 5vw;"></select>
-                <form method="get" action="/session_creation/new_schema" style="display: inline-block;">
-                    <span>Новая схема на</span>
-                    <input type="number" name="num_of_fields" style="width: 2vw; margin: 0 0.5vw;">
-                    <span>разделов</span>
-                    <input type="submit" value="Создать" style="margin-left: 0.5vw;">
-                </form>
+                <div>
+                    <span style="margin-right: 3vw;">Загрузить схему</span> <!-- onchange="this.style.color='black'" -->
+                    <form method="get" action="/session_creation/loading_schema" name="LoadSessionSchemaForm" style="display: inline-block;">
+                        <select name="schemaId" th:style="'width: 20vw; border-radius: 5px;' + ${SchemaModel.getId() == null ? ' color: gray' : ''}" onchange="document.LoadSessionSchemaForm.submit();">
+                            <option selected disabled hidden th:label="${SchemaModel.getId() == null ? 'Выбрать схему' : SchemaModel.getName()}">Выбрать схему</option>
+                            <option th:each="schema : ${schemesWithIdAndName}" th:value="${schema.getId()}" style="color: black">[[${schema.getName()}]]</option>
+                        </select>
+                    </form>
+                    <form method="get" action="/session_creation/new_schema">
+                        <span style="margin-right: 0.55vw;">Создать новую схему </span>
+                        <input type="number" name="num_of_fields" style="width: 10vw; margin: 0 0.2vw; border-radius: 5px; border-width: 1px;" placeholder="Количество разделов">
+                    </form>
+                </div>
+            </div>
+
+            <div th:if="${errors != null || msgs != null}"
+                    style="background: aliceblue; height: 7vw; width: 37.8vw; display: inline-block; padding: 10px; border-radius: 20px; box-shadow: 0px 4px 49px 14px rgb(51 135 199 / 58%); position: absolute; font-size: 16px;">
+                <div th:each="error : ${errors}">❌ [[${error}]]</div>
+                <div th:each="msg : ${msgs}">⚠ [[${msg}]]</div>
             </div>
 
             <br><br>
@@ -38,7 +49,7 @@
                 </div>
 
                 <!-- Форма редактирования схемы сессии -->
-                <form method="post" action="/session_creation/update_schema" th:object="${SchemaModel}" name="SessionSchemaEditingForm">
+                <form method="post" action="/session_creation/update_schema" th:object="${SchemaModel}" name="SessionSchemaEditingForm" id="SSEF">
                     <input type="hidden" name="id" th:value="${SchemaModel.getId()}">
                     <!-- Вывод всех юнитов -->
                     <div th:each="unitNumber : ${#numbers.sequence(0, units.size() - 1)}" style="display: flex; margin: 1vw 0"
@@ -48,7 +59,7 @@
                         <input type="hidden" th:name="'units[' + ${unitNumber} + '].sessionSchemaId'" th:value="${units.get(unitNumber).getSessionSchemaId()}">
 
                         <!-- Раздел -->
-                        <select th:name="'units[' + ${unitNumber} + '].foKn'" class="UnitFoKn" onchange="document.SessionSchemaEditingForm.submit();"> <!-- onchange="window.location.href = this.options[this.selectedIndex].value" -->
+                        <select th:name="'units[' + ${unitNumber} + '].foKn'" class="UnitFoKn" onchange="document.SessionSchemaEditingForm.submit();">
                             <option th:if="${unit.getFoKn() != null && !unit.getFoKn().isEmpty()}"></option>
                             <option selected th:text="${unit.getFoKn()}"></option>
                             <th:block th:each="foKn : ${fieldsOfKn}">
@@ -61,8 +72,8 @@
                                 <div th:each="topicNumber : ${#numbers.sequence(0, 9)}" class="UnitTopicAndQuantity">
                                     <!-- Если раздел для данного юнита еще не выбран (отображаются пустые неактивные поля) -->
                                     <div th:if="${unit.getFoKn() == null || unit.getFoKn().isEmpty()}">
-                                        <input type="text" th:placeholder="'Тема №' + ${topicNumber + 1}" disabled style="width: 93%;">
-                                        <input type="number" style="width: 2vw;" disabled>
+                                        <input type="text" th:placeholder="'Тема №' + ${topicNumber + 1}" disabled style="width: 93%; text-align: center">
+                                        <input type="number" style="width: 2.5vw; text-align: center; border-radius: 5px; border-width: 1px;" disabled placeholder="Кол-во">
                                     </div>
                                     <!-- Если раздел для данного юнита уже выбран -->
                                     <div th:if="${!(unit.getFoKn() == null) && !unit.getFoKn().isEmpty()}">
@@ -76,19 +87,34 @@
                                             </th:block>
                                         </select>
                                         <input type="number" th:name="'units[' + ${unitNumber} + '].quantityQuestions[' + ${topicNumber} + ']'"
-                                               th:value="${unit.getQuantityQuestions() == null || unit.getQuantityQuestions().size() <= topicNumber ? '' : unit.getQuantityQuestions().get(topicNumber)}" style="width: 2vw;">
+                                               style="width: 2.5vw; text-align: center; border-radius: 5px; border-width: 1px;"
+                                               th:value="${unit.getQuantityQuestions() == null || unit.getQuantityQuestions().size() <= topicNumber ? '' : unit.getQuantityQuestions().get(topicNumber)}">
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     <!-- Кнопки -->
-                    <div>
+                    <div style="width: 79vw; display: flex; align-items: baseline;">
+                        <!-- Имя схемы -->
                         <label for="SchemaName" style="font-size: 14px;">Имя схемы (если ее нужно сохранить)</label>
-                        <input type="text" id="SchemaName" name="name" th:value="${SchemaModel.getName()}" style="width: 8.3vw; margin: 0.7vw 40vw 0.7vw 0;">
-                        <input type="submit" value="Сохранить схему" onclick='this.form.action="/session_schemes";'>
-                        <input type="submit" value="Создать сеанс по данной схеме" onclick='this.form.action="тут_поменять_обязательно";'>
+                        <input type="text" id="SchemaName" name="name" th:value="${SchemaModel.getName()}" style="width: 8.3vw; margin: 0 0.5vw;">
+                        <!-- Кнопки добавления и удаления юнитов (разделов) схемы -->
+                        <input type="hidden" name="action" id="actionInput">    <!-- Поле, значение которого определяет удалять или добавлять юнит -->
+                        <input type="submit" value="Добавить раздел" style="margin-left: auto; margin-right: 0.5vw;"
+                               onclick='document.getElementById("actionInput").value = "add";
+                                        document.SessionSchemaEditingForm.method="get";
+                                        document.SessionSchemaEditingForm.action="/session_creation/add_or_remove_unit";'>
+                        <input type="submit" value="Удалить раздел" style="margin-right: auto;"
+                               onclick='document.getElementById("actionInput").value = "remove";
+                                        document.SessionSchemaEditingForm.method="get";
+                                        document.SessionSchemaEditingForm.action="/session_creation/add_or_remove_unit";'>
+                        <!-- Сохранение схемы и создание сеанса -->
+                        <input type="submit" form="SSEF" value="Сохранить схему" style="margin-right: 0.5vw;" onclick='document.SessionSchemaEditingForm.action="/session_schemes";'>
+                        <input type="submit" form="SSEF" value="Создать сеанс по данной схеме" onclick='document.SessionSchemaEditingForm.action="тут_поменять_обязательно";'>
                     </div>
+
                 </form>
 
             </div>

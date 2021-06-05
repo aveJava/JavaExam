@@ -50,4 +50,11 @@ public class ExamSessionSchema {
         return model;
     }
 
+    public ExamSessionSchema() {
+    }
+
+    public ExamSessionSchema(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }
