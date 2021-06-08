@@ -14,5 +14,7 @@ public interface ExamSessionSchemaRepository extends JpaRepository<ExamSessionSc
     @Transactional
     Optional<ExamSessionSchema> findByName(String name);
     @Query("SELECT new ExamSessionSchema(s.id, s.name) FROM ExamSessionSchema s WHERE s.name is not null")
-    List<ExamSessionSchema> getAllSchemasWithIdAndNameOnly();
+    List<ExamSessionSchema> getAllWithIdAndNameOnly();
+    @Transactional
+    List<ExamSessionSchema> getAllByNameIsNotNull();
 }

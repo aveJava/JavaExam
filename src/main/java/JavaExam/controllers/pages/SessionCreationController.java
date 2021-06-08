@@ -22,6 +22,7 @@ public class SessionCreationController {
     private final ExamSessionSchemaService schemaService;
 
     private ExamSessionSchemaModel schemaModel;
+    private boolean displaySavedSchemes;
 
     public SessionCreationController(ExamQuestionFieldOfKnowledgeService foKnService, ExamQuestionTopicService topicService, ExamSessionSchemaService schemaService) {
         this.foKnService = foKnService;
@@ -37,7 +38,8 @@ public class SessionCreationController {
         if (!model.containsAttribute("SchemaModel")) model.addAttribute("SchemaModel", schemaModel);
         model.addAttribute("fieldsOfKn", foKnService.getAll());
         model.addAttribute("topicService", topicService);
-        model.addAttribute("schemesWithIdAndName", schemaService.getAllSchemesWithIdAndNameOnly());
+        model.addAttribute("displaySchemes", displaySavedSchemes);
+        model.addAttribute("schemes", displaySavedSchemes ? schemaService.getAllByNameIsNotNull() : schemaService.getAllSchemesWithIdAndNameOnly());
 
         return "session_creation/session_creation-page";
     }
@@ -81,9 +83,10 @@ public class SessionCreationController {
 
     // загружает схему в html-форму из БД
     @GetMapping("/loading_schema")
-    public String loadSchema(@RequestParam("schemaId") Long schemaId) {
+    public String loadSchema(@RequestParam("schemaId") Long schemaId, @RequestParam(value = "collapse", defaultValue = "false") boolean collapse) {
         Optional<ExamSessionSchema> optional = schemaService.get(schemaId);
         optional.ifPresent(s -> schemaModel = s.toModel());
+        if (collapse) displaySavedSchemes = false;
 
         return "redirect:/session_creation";
     }
@@ -99,6 +102,15 @@ public class SessionCreationController {
         }
         if ("remove".equals(action)) units.remove(units.size() - 1);
         schemaModel.setUnits(units);
+
+        return "redirect:/session_creation";
+    }
+
+    // отображение и скрытие сохраненных схем
+    @PostMapping("/display_schemes")
+    public String displaySchemes(@ModelAttribute("SchemaModel") ExamSessionSchemaModel model, @RequestParam("displaySchemes") boolean displSchem) {
+        if (model != null) schemaModel = model;
+        displaySavedSchemes = displSchem;
 
         return "redirect:/session_creation";
     }

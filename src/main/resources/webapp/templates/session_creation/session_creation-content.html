@@ -8,19 +8,19 @@
 
     <div th:fragment="content" class="content">
 
-        <div style="margin: 2vw 12.5vw;">
+        <div style="margin: 2vw 12.5vw; height: fit-content;">
 
             <div style="width: 40vw; display: inline-block; margin-bottom: 2vw;">
-                <div style="font-size: 38px; font-style: italic; font-weight: 700;">Создание нового сеанса</div>
+                <div th:style="'font-size: 38px; font-style: italic; font-weight: 700;' + ${displaySchemes == false ? '' : 'color: yellow;'}">Создание нового сеанса</div>
 
                 <br><br>
 
                 <div>
-                    <span style="margin-right: 3vw;">Загрузить схему</span> <!-- onchange="this.style.color='black'" -->
+                    <span style="margin-right: 3vw;">Загрузить схему</span>
                     <form method="get" action="/session_creation/loading_schema" name="LoadSessionSchemaForm" style="display: inline-block;">
                         <select name="schemaId" th:style="'width: 20vw; border-radius: 5px;' + ${SchemaModel.getId() == null ? ' color: gray' : ''}" onchange="document.LoadSessionSchemaForm.submit();">
                             <option selected disabled hidden th:label="${SchemaModel.getId() == null ? 'Выбрать схему' : SchemaModel.getName()}">Выбрать схему</option>
-                            <option th:each="schema : ${schemesWithIdAndName}" th:value="${schema.getId()}" style="color: black">[[${schema.getName()}]]</option>
+                            <option th:each="schema : ${schemes}" th:value="${schema.getId()}" style="color: black">[[${schema.getName()}]]</option>
                         </select>
                     </form>
                     <form method="get" action="/session_creation/new_schema">
@@ -40,7 +40,8 @@
 
             <!-- Если в схемме сессии есть хотя бы один юнит (раздел) -->
             <div th:if="${SchemaModel != null && SchemaModel.getUnits().size() > 0}"
-                 th:with="units = ${SchemaModel.getUnits()}">
+                 th:with="units = ${SchemaModel.getUnits()}"
+                 style="height: fit-content; padding-bottom: 3vw;">
 
                 <!-- Шапка -->
                 <div style="font-weight: 700; font-style: italic; margin: 1vw 0;">
@@ -49,7 +50,7 @@
                 </div>
 
                 <!-- Форма редактирования схемы сессии -->
-                <form method="post" action="/session_creation/update_schema" th:object="${SchemaModel}" name="SessionSchemaEditingForm" id="SSEF">
+                <form method="post" action="/session_creation/update_schema" th:object="${SchemaModel}" name="SessionSchemaEditingForm">
                     <input type="hidden" name="id" th:value="${SchemaModel.getId()}">
                     <!-- Вывод всех юнитов -->
                     <div th:each="unitNumber : ${#numbers.sequence(0, units.size() - 1)}" style="display: flex; margin: 1vw 0"
@@ -111,11 +112,45 @@
                                         document.SessionSchemaEditingForm.method="get";
                                         document.SessionSchemaEditingForm.action="/session_creation/add_or_remove_unit";'>
                         <!-- Сохранение схемы и создание сеанса -->
-                        <input type="submit" form="SSEF" value="Сохранить схему" style="margin-right: 0.5vw;" onclick='document.SessionSchemaEditingForm.action="/session_schemes";'>
-                        <input type="submit" form="SSEF" value="Создать сеанс по данной схеме" onclick='document.SessionSchemaEditingForm.action="тут_поменять_обязательно";'>
+                        <input type="submit" value="Сохранить схему" style="margin-right: 0.5vw;" onclick='document.SessionSchemaEditingForm.action="/session_schemes";'>
+                        <input type="submit" value="Создать сеанс по данной схеме" onclick='document.SessionSchemaEditingForm.action="тут_поменять_обязательно";'>
+                    </div>
+
+                    <!-- Кнопки отображения/скрытия схем -->
+                    <div th:style="'margin: 2vw 0; padding-top: 1vw;' + ${displaySchemes == false ? '' : 'border-style: solid none none;'}">
+                        <input type="hidden" name="displaySchemes" id="displaySchemesInput">
+                        <input type="submit" value="Показать сохраненные схемы" style="margin-right: 0.5vw;"
+                               onclick='document.getElementById("displaySchemesInput").value = "true";
+                                        document.SessionSchemaEditingForm.action="/session_creation/display_schemes";'>
+                        <input type="submit" value="Скрыть сохраненные схемы"
+                               onclick='document.getElementById("displaySchemesInput").value = "false";
+                                        document.SessionSchemaEditingForm.action="/session_creation/display_schemes";'>
                     </div>
 
                 </form>
+
+                <!-- Отображение схем -->
+                <div th:if="${displaySchemes}">
+                    <div th:each="scheme : ${schemes}">
+                        <div class="displaySchemaHeader" th:onclick="'location.href=\'/session_creation/loading_schema?schemaId=' + ${scheme.getId()} + '&collapse=true\''">[[${scheme.getName()}]]</div>
+                        <!-- Схема -->
+                        <div class="displaySchemaUnitContainer">
+                            <!-- Юниты -->
+                            <div th:each="unit : ${scheme.getUnits()}" style="display: flex; margin: .5vw 0;">
+                                <div style="width: 6vw; margin: auto 3vw auto 0; padding-left: 1vw;">
+                                    [[${unit.getFoKn().getName()}]]
+                                </div>
+                                <div th:with="topics = ${unit.getTopics()}, quantity = ${unit.getQuantityQuestions()}" style="display: flex;">
+                                    <!-- Темы и количества вопросов -->
+                                    <div class="UnitTopicAndQuantity" th:each="number : ${#numbers.sequence(0, 9)}">
+                                        <input th:value="${number < topics.size() ? topics.get(number).getName() : ''}" readonly style="width: 93%; text-align: center;">
+                                        <div class="displaySchemaUnitQuantity">[[${number < quantity.size() ? quantity.get(number) : ''}]]</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
 

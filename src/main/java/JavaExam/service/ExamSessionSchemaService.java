@@ -25,7 +25,11 @@ public class ExamSessionSchemaService {
     public List<ExamSessionSchema> getAll() { return schemaRepository.findAll(); }
 
     public List<ExamSessionSchema> getAllSchemesWithIdAndNameOnly() {
-        return schemaRepository.getAllSchemasWithIdAndNameOnly();
+        return schemaRepository.getAllWithIdAndNameOnly();
+    }
+
+    public List<ExamSessionSchema> getAllByNameIsNotNull() {
+        return schemaRepository.getAllByNameIsNotNull();
     }
 
     public Optional<ExamSessionSchema> findByName(String name) {
