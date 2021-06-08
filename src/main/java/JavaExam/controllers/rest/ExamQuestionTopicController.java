@@ -12,8 +12,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/entities/exam_question_topics")
 public class ExamQuestionTopicController {
-    ExamQuestionTopicService topicService;
-    ExamQuestionFieldOfKnowledgeService fieldOfKnowledgeService;
+    private final ExamQuestionTopicService topicService;
+    private final ExamQuestionFieldOfKnowledgeService fieldOfKnowledgeService;
 
     public ExamQuestionTopicController(ExamQuestionTopicService topicService,
                                        ExamQuestionFieldOfKnowledgeService fieldOfKnowledgeService) {

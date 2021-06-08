@@ -60,7 +60,7 @@ public class ExamQuestion {
 @Converter
 class AnswersConverter implements AttributeConverter<List<String>, String> {
 
-    private static final String SEPARATOR = "※";
+    private final String SEPARATOR = "※";
 
     @Override
     public String convertToDatabaseColumn(List<String> list) {

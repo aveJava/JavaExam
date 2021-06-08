@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public class ExamQuestionFieldOfKnowledgeService {
 
-    ExamQuestionFieldOfKnowledgeRepo fieldKnowledgeRepo;
+    private final ExamQuestionFieldOfKnowledgeRepo fieldKnowledgeRepo;
 
     public ExamQuestionFieldOfKnowledgeService(ExamQuestionFieldOfKnowledgeRepo fieldKnowledgeRepo) {
         this.fieldKnowledgeRepo = fieldKnowledgeRepo;

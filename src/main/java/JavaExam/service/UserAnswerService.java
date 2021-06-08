@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public class UserAnswerService {
 
-    UserAnswerRepo answerRepo;
+    private final UserAnswerRepo answerRepo;
 
     public UserAnswerService(UserAnswerRepo answerRepo) {
         this.answerRepo = answerRepo;

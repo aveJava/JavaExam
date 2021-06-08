@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class ExamSessionService {
 
-    ExamSessionRepo sessionRepo;
+    private final ExamSessionRepo sessionRepo;
 
     public ExamSessionService(ExamSessionRepo sessionRepo) {
         this.sessionRepo = sessionRepo;

@@ -14,14 +14,12 @@ import java.util.List;
 
 @Component
 public class ExamQuestionModelValidator implements Validator {
-    ExamQuestionFieldOfKnowledgeService fieldOfKnowledgeService;
-    ExamQuestionTopicService topicService;
-    ExamQuestionService questionService;
+    private final ExamQuestionFieldOfKnowledgeService fieldOfKnowledgeService;
+    private final ExamQuestionTopicService topicService;
 
-    public ExamQuestionModelValidator(ExamQuestionFieldOfKnowledgeService fieldOfKnowledgeService, ExamQuestionTopicService topicService, ExamQuestionService questionService) {
+    public ExamQuestionModelValidator(ExamQuestionFieldOfKnowledgeService fieldOfKnowledgeService, ExamQuestionTopicService topicService) {
         this.fieldOfKnowledgeService = fieldOfKnowledgeService;
         this.topicService = topicService;
-        this.questionService = questionService;
     }
 
     @Override

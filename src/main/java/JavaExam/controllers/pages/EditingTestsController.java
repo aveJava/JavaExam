@@ -23,12 +23,12 @@ public class EditingTestsController {
     private final ExamQuestionService questionService;
 
     private EditingTab tab;
-    String foKnName;
-    String topicName;
-    int pageNumber;
-    int maxPage;
-    long totalElements;
-    int pageSize;
+    private String foKnName;
+    private String topicName;
+    private int pageNumber;
+    private int maxPage;
+    private long totalElements;
+    private int pageSize;
 
     public EditingTestsController(ExamQuestionFieldOfKnowledgeService fieldOfKnowledgeService, ExamQuestionTopicService topicService, ExamQuestionService questionService) {
         this.fieldOfKnowledgeService = fieldOfKnowledgeService;

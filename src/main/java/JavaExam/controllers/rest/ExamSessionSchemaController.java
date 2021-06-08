@@ -22,11 +22,11 @@ import java.util.List;
 @Controller
 @RequestMapping("/session_schemes")
 public class ExamSessionSchemaController {
-    ExamSessionSchemaService schemaService;
-    ExamSessionSchemaUnitService unitService;
-    ExamQuestionFieldOfKnowledgeService foKnService;
-    ExamQuestionTopicService topicService;
-    ExamSessionSchemaModelValidator validator;
+    private final ExamSessionSchemaService schemaService;
+    private final ExamSessionSchemaUnitService unitService;
+    private final ExamQuestionFieldOfKnowledgeService foKnService;
+    private final ExamQuestionTopicService topicService;
+    private final ExamSessionSchemaModelValidator validator;
 
     public ExamSessionSchemaController(ExamSessionSchemaService schemaService, ExamSessionSchemaUnitService unitService,
                                        ExamQuestionFieldOfKnowledgeService foKnService, ExamQuestionTopicService topicService,

@@ -10,7 +10,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/entities/exam_question_field_of_knowledge")
 public class ExamQuestionFieldOfKnowledgeController {
-    ExamQuestionFieldOfKnowledgeService fieldOfKnowledgeService;
+    private final ExamQuestionFieldOfKnowledgeService fieldOfKnowledgeService;
 
     public ExamQuestionFieldOfKnowledgeController(ExamQuestionFieldOfKnowledgeService fieldOfKnowledgeService) {
         this.fieldOfKnowledgeService = fieldOfKnowledgeService;

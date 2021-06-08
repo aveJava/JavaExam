@@ -18,9 +18,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/entities/exam_questions")
 public class ExamQuestionController {
-    ExamQuestionTopicService topicService;
-    ExamQuestionService questionService;
-    ExamQuestionModelValidator validator;
+    private final ExamQuestionTopicService topicService;
+    private final ExamQuestionService questionService;
+    private final ExamQuestionModelValidator validator;
 
     public ExamQuestionController(ExamQuestionTopicService topicService, ExamQuestionService questionService, ExamQuestionModelValidator validator) {
         this.topicService = topicService;

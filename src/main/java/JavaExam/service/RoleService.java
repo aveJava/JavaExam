@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public class RoleService {
 
-    RoleRepo roleRepo;
+    private final RoleRepo roleRepo;
 
     public RoleService(RoleRepo roleRepo) {
         this.roleRepo = roleRepo;

@@ -16,9 +16,9 @@ import java.util.Set;
 @Service
 public class UserService implements UserDetailsService {
 
-    UserRepo userRepo;
-    RoleRepo roleRepo;
-    BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserRepo userRepo;
+    private final RoleRepo roleRepo;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public UserService(UserRepo userRepo, RoleRepo roleRepo, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepo = userRepo;

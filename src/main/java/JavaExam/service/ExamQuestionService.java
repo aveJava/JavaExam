@@ -13,10 +13,10 @@ import java.util.List;
 
 @Service
 public class ExamQuestionService {
-    ExamQuestionFieldOfKnowledgeService foKnService;
-    ExamQuestionTopicService topicService;
+    private final ExamQuestionFieldOfKnowledgeService foKnService;
+    private final ExamQuestionTopicService topicService;
 
-    ExamQuestionRepo questionRepo;
+    private final ExamQuestionRepo questionRepo;
 
     public ExamQuestionService(ExamQuestionFieldOfKnowledgeService fieldOfKnowledgeService, ExamQuestionTopicService topicService, ExamQuestionRepo questionRepo) {
         this.foKnService = fieldOfKnowledgeService;

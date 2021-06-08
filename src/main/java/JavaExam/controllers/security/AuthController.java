@@ -1,11 +1,9 @@
 package JavaExam.controllers.security;
 
-import JavaExam.service.UserService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,12 +15,6 @@ import java.util.List;
 
 @Controller
 public class AuthController {
-    UserService userService;
-
-    public AuthController(UserService userService) {
-        this.userService = userService;
-    }
-
     // вход для пользователей (экзаменуемых)
     @GetMapping("/login")
     public String login(@RequestParam(value = "error", required = false) boolean error, Model model) {

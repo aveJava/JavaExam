@@ -21,6 +21,7 @@ public class ExamSessionSchemaModel {
     private String name;
     private List<ExamSessionSchemaUnitModel> units;
 
+    // удаляет из модели пустые юниты
     public void trim() {
         for (int i=0; i<units.size(); i++) {
             String foKn = units.get(i).getFoKn();

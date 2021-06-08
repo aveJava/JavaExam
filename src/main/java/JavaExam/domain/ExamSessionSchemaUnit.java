@@ -76,7 +76,7 @@ public class ExamSessionSchemaUnit {
 
 @Converter
 final class ExamSessionSchemaTopicsConverter implements AttributeConverter<List<ExamQuestionTopic>, String> {
-    private static final String SEPARATOR = "※";
+    private final String SEPARATOR = "※";
 
     @Autowired
     private ApplicationContext context;
@@ -101,7 +101,7 @@ final class ExamSessionSchemaTopicsConverter implements AttributeConverter<List<
 
 @Converter
 final class ExamSessionSchemaTopicsQuantityQuestionsConverter implements AttributeConverter<List<Integer>, String> {
-    private static final String SEPARATOR = "※";
+    private final String SEPARATOR = "※";
 
     @Override
     public String convertToDatabaseColumn(List<Integer> integers) {

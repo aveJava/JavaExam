@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/testing")
 public class TestingController {
-    Tests test;     // выбранный тест
+    private Tests test;     // выбранный тест
 
     @GetMapping
     public String displayPage(Model model) {
