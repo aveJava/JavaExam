@@ -17,13 +17,13 @@
 
                 <div>
                     <span style="margin-right: 3vw;">Загрузить схему</span>
-                    <form method="get" action="/session_creation/loading_schema" name="LoadSessionSchemaForm" style="display: inline-block;">
+                    <form method="get" action="/admin/session_creation/loading_schema" name="LoadSessionSchemaForm" style="display: inline-block;">
                         <select name="schemaId" th:style="'width: 20vw; border-radius: 5px;' + ${SchemaModel.getId() == null ? ' color: gray' : ''}" onchange="document.LoadSessionSchemaForm.submit();">
                             <option selected disabled hidden th:label="${SchemaModel.getId() == null ? 'Выбрать схему' : SchemaModel.getName()}">Выбрать схему</option>
                             <option th:each="schema : ${schemes}" th:value="${schema.getId()}" style="color: black">[[${schema.getName()}]]</option>
                         </select>
                     </form>
-                    <form method="get" action="/session_creation/new_schema">
+                    <form method="get" action="/admin/session_creation/new_schema">
                         <span style="margin-right: 0.55vw;">Создать новую схему </span>
                         <input type="number" name="num_of_fields" style="width: 10vw; margin: 0 0.2vw; border-radius: 5px; border-width: 1px;" placeholder="Количество разделов">
                     </form>
@@ -50,7 +50,7 @@
                 </div>
 
                 <!-- Форма редактирования схемы сессии -->
-                <form method="post" action="/session_creation/update_schema" th:object="${SchemaModel}" name="SessionSchemaEditingForm">
+                <form method="post" action="/admin/session_creation/update_schema" th:object="${SchemaModel}" name="SessionSchemaEditingForm">
                     <input type="hidden" name="id" th:value="${SchemaModel.getId()}">
                     <!-- Вывод всех юнитов -->
                     <div th:each="unitNumber : ${#numbers.sequence(0, units.size() - 1)}" style="display: flex; margin: 1vw 0"
@@ -106,13 +106,13 @@
                         <input type="submit" value="Добавить раздел" style="margin-left: auto; margin-right: 0.5vw;"
                                onclick='document.getElementById("actionInput").value = "add";
                                         document.SessionSchemaEditingForm.method="get";
-                                        document.SessionSchemaEditingForm.action="/session_creation/add_or_remove_unit";'>
+                                        document.SessionSchemaEditingForm.action="/admin/session_creation/add_or_remove_unit";'>
                         <input type="submit" value="Удалить раздел" style="margin-right: auto;"
                                onclick='document.getElementById("actionInput").value = "remove";
                                         document.SessionSchemaEditingForm.method="get";
-                                        document.SessionSchemaEditingForm.action="/session_creation/add_or_remove_unit";'>
+                                        document.SessionSchemaEditingForm.action="/admin/session_creation/add_or_remove_unit";'>
                         <!-- Сохранение схемы и создание сеанса -->
-                        <input type="submit" value="Сохранить схему" style="margin-right: 0.5vw;" onclick='document.SessionSchemaEditingForm.action="/session_schemes";'>
+                        <input type="submit" value="Сохранить схему" style="margin-right: 0.5vw;" onclick='document.SessionSchemaEditingForm.action="/entities/session_schemes";'>
                         <input type="submit" value="Создать сеанс по данной схеме" onclick='document.SessionSchemaEditingForm.action="тут_поменять_обязательно";'>
                     </div>
 
@@ -121,10 +121,10 @@
                         <input type="hidden" name="displaySchemes" id="displaySchemesInput">
                         <input type="submit" value="Показать сохраненные схемы" style="margin-right: 0.5vw;"
                                onclick='document.getElementById("displaySchemesInput").value = "true";
-                                        document.SessionSchemaEditingForm.action="/session_creation/display_schemes";'>
+                                        document.SessionSchemaEditingForm.action="/admin/session_creation/display_schemes";'>
                         <input type="submit" value="Скрыть сохраненные схемы"
                                onclick='document.getElementById("displaySchemesInput").value = "false";
-                                        document.SessionSchemaEditingForm.action="/session_creation/display_schemes";'>
+                                        document.SessionSchemaEditingForm.action="/admin/session_creation/display_schemes";'>
                     </div>
 
                 </form>
@@ -132,7 +132,7 @@
                 <!-- Отображение схем -->
                 <div th:if="${displaySchemes}">
                     <div th:each="scheme : ${schemes}">
-                        <div class="displaySchemaHeader" th:onclick="'location.href=\'/session_creation/loading_schema?schemaId=' + ${scheme.getId()} + '&collapse=true\''">[[${scheme.getName()}]]</div>
+                        <div class="displaySchemaHeader" th:onclick="'location.href=\'/admin/session_creation/loading_schema?schemaId=' + ${scheme.getId()} + '&collapse=true\''">[[${scheme.getName()}]]</div>
                         <!-- Схема -->
                         <div class="displaySchemaUnitContainer">
                             <!-- Юниты -->

@@ -39,7 +39,7 @@ public class ExamQuestionTopicController {
             }
         }
 
-        return "redirect:/editing_tests";
+        return "redirect:/admin/editing_tests";
     }
 
     @PatchMapping
@@ -48,18 +48,18 @@ public class ExamQuestionTopicController {
         boolean isNumberPresent = number != null && !number.isEmpty() && !number.matches("\\D") && number.length() <= 10;
         boolean isFoKnPresent = foKn != null && !foKn.equals("Использовать старый");
         boolean isNamePresent = name != null && !name.isEmpty();
-        if (!isNumberPresent || !(isFoKnPresent || isNamePresent)) return "redirect:/editing_tests";
+        if (!isNumberPresent || !(isFoKnPresent || isNamePresent)) return "redirect:/admin/editing_tests";
 
         int num;
         try {
             num = Integer.parseInt(number);
         } catch (NumberFormatException e) {
-            return "redirect:/editing_tests";
+            return "redirect:/admin/editing_tests";
         }
 
         // получение редактируемого топика
         List<ExamQuestionTopic> list = topicService.getAll();
-        if (num < 0 || num > list.size()) return "redirect:/editing_tests";
+        if (num < 0 || num > list.size()) return "redirect:/admin/editing_tests";
         ExamQuestionTopic topic = list.get(num - 1);
 
         // изменение и сохранение редактируемого топика
@@ -70,25 +70,25 @@ public class ExamQuestionTopicController {
         if (isNamePresent) topic.setName(name);
         topicService.save(topic);
 
-        return "redirect:/editing_tests";
+        return "redirect:/admin/editing_tests";
     }
 
     @DeleteMapping
     public String delete(@RequestParam("number") String number) {
-        if (number == null || number.isEmpty() || number.matches("\\D") || number.length() > 10) return "redirect:/editing_tests";
+        if (number == null || number.isEmpty() || number.matches("\\D") || number.length() > 10) return "redirect:/admin/editing_tests";
 
         int num;
         try {
             num = Integer.parseInt(number);
         } catch (NumberFormatException e) {
-            return "redirect:/editing_tests";
+            return "redirect:/admin/editing_tests";
         }
 
         List<ExamQuestionTopic> list = topicService.getAll();
-        if (num < 0 || num > list.size()) return "redirect:/editing_tests";
+        if (num < 0 || num > list.size()) return "redirect:/admin/editing_tests";
         ExamQuestionTopic topic = list.get(num - 1);
         topicService.delete(topic);
 
-        return "redirect:/editing_tests";
+        return "redirect:/admin/editing_tests";
     }
 }

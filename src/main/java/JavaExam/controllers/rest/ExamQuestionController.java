@@ -37,7 +37,7 @@ public class ExamQuestionController {
             redirectAttr.addFlashAttribute("msgs", List.of("Вопрос сохранен!"));
         }
 
-        return "redirect:/editing_tests";
+        return "redirect:/admin/editing_tests";
     }
 
     @GetMapping("{id}/edit")
@@ -45,7 +45,7 @@ public class ExamQuestionController {
         redirectAttr.addFlashAttribute("model", questionService.get(id).toModel());
         redirectAttr.addFlashAttribute("editing", true);
         redirectAttr.addFlashAttribute("editId", id);
-        return "redirect:/editing_tests";
+        return "redirect:/admin/editing_tests";
     }
 
     @PatchMapping("{id}")
@@ -54,16 +54,16 @@ public class ExamQuestionController {
         if (isValid) {
             ExamQuestion question = model.toEntity(topicService);
             questionService.update(question);
-            return "redirect:/editing_tests/switch?tab=VIEW_QUESTIONS";
+            return "redirect:/admin/editing_tests/switch?tab=VIEW_QUESTIONS";
         }
 
-        return "redirect:/editing_tests";
+        return "redirect:/admin/editing_tests";
     }
 
     @DeleteMapping("{id}")
     public String delete(@PathVariable("id") Long id) {
         questionService.delete(questionService.get(id));
-        return "redirect:/editing_tests";
+        return "redirect:/admin/editing_tests";
     }
 
     // валидирует заполненную форму создания или редактирования вопроса

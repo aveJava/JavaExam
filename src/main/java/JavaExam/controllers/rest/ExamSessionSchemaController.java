@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/session_schemes")
+@RequestMapping("/entities/session_schemes")
 public class ExamSessionSchemaController {
     private final ExamSessionSchemaService schemaService;
     private final ExamSessionSchemaUnitService unitService;
@@ -53,7 +53,7 @@ public class ExamSessionSchemaController {
                         redirectAttr.addFlashAttribute("msgs", List.of("Сохранения не произошло, т.к. точно такая же схема есть в БД под именем '" + schemaNameFromDB + "'"));
                     redirectAttr.addFlashAttribute("SchemaModel", model);   // поскольку сохранения не произошло, возвращаем пользователю модель в том состоянии, в котором он пытался ее сохранить
 
-                    return "redirect:/session_creation";
+                    return "redirect:/admin/session_creation";
                 }
                 else model.setId(null);     // чтобы схема была записана как новая и не затерла свой прототип
             }
@@ -61,10 +61,10 @@ public class ExamSessionSchemaController {
             ExamSessionSchema schema = model.toEntity(unitService, schemaService, foKnService, topicService);
             schemaService.save(schema);
             redirectAttr.addFlashAttribute("msgs", List.of("Схема сохранена!"));
-            return "redirect:/session_creation?create_new=true";
+            return "redirect:/admin/session_creation?create_new=true";
         }
 
-        return "redirect:/session_creation";
+        return "redirect:/admin/session_creation";
     }
 
     // валидирует заполненную форму создания или редактирования вопроса

@@ -24,45 +24,45 @@ public class ExamQuestionFieldOfKnowledgeController {
             fieldOfKnowledgeService.save(fieldOfKnowledge);
         }
 
-        return "redirect:/editing_tests";
+        return "redirect:/admin/editing_tests";
     }
 
     @PatchMapping
     public String update(@RequestParam("number") String number, @RequestParam("name") String name) {
-        if (number == null || name == null || number.isEmpty() || name.isEmpty() || number.matches("\\D") || number.length() > 10) return "redirect:/editing_tests";
+        if (number == null || name == null || number.isEmpty() || name.isEmpty() || number.matches("\\D") || number.length() > 10) return "redirect:/admin/editing_tests";
 
         int num;
         try {
             num = Integer.parseInt(number);
         } catch (NumberFormatException e) {
-            return "redirect:/editing_tests";
+            return "redirect:/admin/editing_tests";
         }
 
         List<ExamQuestionFieldOfKnowledge> list = fieldOfKnowledgeService.getAll();
-        if (num < 0 || num > list.size()) return "redirect:/editing_tests";
+        if (num < 0 || num > list.size()) return "redirect:/admin/editing_tests";
         ExamQuestionFieldOfKnowledge fieldOfKnowledge = list.get(num - 1);
         fieldOfKnowledge.setName(name);
         fieldOfKnowledgeService.save(fieldOfKnowledge);
 
-        return "redirect:/editing_tests";
+        return "redirect:/admin/editing_tests";
     }
 
     @DeleteMapping
     public String delete(@RequestParam("number") String number) {
-        if (number == null || number.isEmpty() || number.matches("\\D") || number.length() > 10) return "redirect:/editing_tests";
+        if (number == null || number.isEmpty() || number.matches("\\D") || number.length() > 10) return "redirect:/admin/editing_tests";
 
         int num;
         try {
             num = Integer.parseInt(number);
         } catch (NumberFormatException e) {
-            return "redirect:/editing_tests";
+            return "redirect:/admin/editing_tests";
         }
 
         List<ExamQuestionFieldOfKnowledge> list = fieldOfKnowledgeService.getAll();
-        if (num < 0 || num > list.size()) return "redirect:/editing_tests";
+        if (num < 0 || num > list.size()) return "redirect:/admin/editing_tests";
         ExamQuestionFieldOfKnowledge fieldOfKnowledge = list.get(num - 1);
         fieldOfKnowledgeService.delete(fieldOfKnowledge);
 
-        return "redirect:/editing_tests";
+        return "redirect:/admin/editing_tests";
     }
 }

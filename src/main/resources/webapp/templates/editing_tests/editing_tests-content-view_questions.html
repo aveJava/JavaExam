@@ -25,12 +25,12 @@
                 <th width="10%">[[${entry.getTopic().getName()}]]</th>
                 <th width="70%" style="text-align: left; font-weight: 300;">[[${entry.getQuestion()}]]</th>
                 <th width="5%" class="centerAline">
-                    <img src="images/edit.png" class="editButton" th:onclick="'location.href=\'/entities/exam_questions/' + ${entry.getId()} + '/edit\''">
+                    <img src="/images/edit.png" class="editButton" th:onclick="'location.href=\'/entities/exam_questions/' + ${entry.getId()} + '/edit\''">
                 </th>
                 <th scope="col" width="5%" class="centerAline">
                     <form th:action="'/entities/exam_questions/' + ${entry.getId()}" th:method="delete" style="border: none; padding: 0;">
                         <button type="submit" style="border: 0; padding: 0; width: 0; margin-right: 0.7vw;">
-                            <img src="images/delete.png" class="deleteButton">
+                            <img src="/images/delete.png" class="deleteButton">
                         </button>
                     </form>
                 </th>

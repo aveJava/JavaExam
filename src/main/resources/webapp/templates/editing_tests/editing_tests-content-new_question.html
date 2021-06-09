@@ -38,8 +38,8 @@
 
             <!-- Блок для вывода сообщений -->
             <div style="display: inline-block; width: 25vw; vertical-align: top;">
-                <p th:each="error : ${errors}"><img src="images/warning.jpg" style="width: 22px; color: brown;"> [[${error}]]</p>
-                <p th:each="msg : ${msgs}"><img src="images/ok.jpg" style="width: 22px; color: darkgreen"> [[${msg}]]</p>
+                <p th:each="error : ${errors}"><img src="/images/warning.jpg" style="width: 22px; color: brown;"> [[${error}]]</p>
+                <p th:each="msg : ${msgs}"><img src="/images/ok.jpg" style="width: 22px; color: darkgreen"> [[${msg}]]</p>
             </div>
 
             <textarea th:field="*{question}" style="width: 70vw;"></textarea>

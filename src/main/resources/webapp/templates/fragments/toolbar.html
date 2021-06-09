@@ -8,7 +8,7 @@
 
     <!-- Tулбар для вкладки просмотра вопросов -->
     <div th:fragment="toolbar-view"
-         th:with="toolbarControllerAddress='/editing_tests/toolbar'">
+         th:with="toolbarControllerAddress='/admin/editing_tests/toolbar'">
 
         <div th:insert="~{fragments/toolbar :: main}"></div>
 
@@ -18,7 +18,7 @@
     <!-- Ненастроенный тулбар (шаблон тулбара) -->
     <div th:fragment="main">
 
-        <link href="toolbar.css" rel="stylesheet">
+        <link href="/toolbar.css" rel="stylesheet">
 
         <div class="toolbarContainer">
             <!-- Номер текущей страницы -->

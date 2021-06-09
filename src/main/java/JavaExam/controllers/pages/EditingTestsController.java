@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/editing_tests")
+@RequestMapping("/admin/editing_tests")
 public class EditingTestsController {
     private final ExamQuestionFieldOfKnowledgeService fieldOfKnowledgeService;
     private final ExamQuestionTopicService topicService;
@@ -89,7 +89,7 @@ public class EditingTestsController {
                 tab = EditingTab.VIEW_QUESTIONS;
                 break;
         }
-        return "redirect:/editing_tests";
+        return "redirect:/admin/editing_tests";
     }
 
     // слушает кнопки toolbar'а, перелистывает страницу результатов или меняет ее размер
@@ -121,6 +121,6 @@ public class EditingTestsController {
             pageSize = size;
         }
 
-        return "redirect:/editing_tests";
+        return "redirect:/admin/editing_tests";
     }
 }

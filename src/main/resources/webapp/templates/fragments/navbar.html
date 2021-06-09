@@ -9,13 +9,13 @@
 
     <div th:fragment="navbar">
 
-        <link href="navbar.css" rel="stylesheet">
+        <link href="/navbar.css" rel="stylesheet">
 
         <div class="container-fluid" style="height: 50px; background-color: #2a2a2a; display: flex;">
 
             <!-- Лого и хэдер -->
             <div style="display: flex; width: 37vw;">
-                <img src="images/logo.png" class="logo" th:onclick="'location.href=\'/admin-login\''">
+                <img src="/images/logo.png" class="logo" th:onclick="'location.href=\'/admin-login\''">
                 <div class="navHeader">Experimental testing platform</div>
             </div>
 
@@ -27,9 +27,9 @@
             <!-- Кнопки админа -->
             <div style="display: flex;" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERADMIN')">
                 <a style="width: 10vw;" class="adminBtn"
-                   href="/editing_tests">Редактирование тестов</a>
+                   href="/admin/editing_tests">Редактирование тестов</a>
                 <a style="width: 7vw;"  class="adminBtn"
-                   href="/session_creation">Создать учётку</a>
+                   href="/admin/session_creation">Создать учётку</a>
             </div>
 
             <!-- Выход -->

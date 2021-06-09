@@ -17,7 +17,7 @@ import java.util.Optional;
 import java.util.stream.IntStream;
 
 @Controller
-@RequestMapping("/session_creation")
+@RequestMapping("/admin/session_creation")
 public class SessionCreationController {
     private final ExamQuestionFieldOfKnowledgeService foKnService;
     private final ExamQuestionTopicService topicService;
@@ -59,13 +59,13 @@ public class SessionCreationController {
             schemaModel.setUnits(emptyUnits);
         }
 
-        return "redirect:/session_creation";
+        return "redirect:/admin/session_creation";
     }
 
     // обновляет схему при изменении foKn какого-либо юнита в html-форме
     @PostMapping("/update_schema")
     public String updateSchema(@ModelAttribute("SchemaModel") ExamSessionSchemaModel model) {
-        if (model == null) return "redirect:/session_creation";
+        if (model == null) return "redirect:/admin/session_creation";
 
         List<ExamSessionSchemaUnitModel> units1 = schemaModel.getUnits();
         List<ExamSessionSchemaUnitModel> units2 = model.getUnits();
@@ -80,7 +80,7 @@ public class SessionCreationController {
         }
         schemaModel = model;
 
-        return "redirect:/session_creation";
+        return "redirect:/admin/session_creation";
     }
 
     // загружает схему в html-форму из БД
@@ -90,7 +90,7 @@ public class SessionCreationController {
         optional.ifPresent(s -> schemaModel = s.toModel());
         if (collapse) displaySavedSchemes = false;
 
-        return "redirect:/session_creation";
+        return "redirect:/admin/session_creation";
     }
 
     // добавить или удалить юнит
@@ -105,7 +105,7 @@ public class SessionCreationController {
         if ("remove".equals(action)) units.remove(units.size() - 1);
         schemaModel.setUnits(units);
 
-        return "redirect:/session_creation";
+        return "redirect:/admin/session_creation";
     }
 
     // отображение и скрытие сохраненных схем
@@ -114,7 +114,7 @@ public class SessionCreationController {
         if (model != null) schemaModel = model;
         displaySavedSchemes = displSchem;
 
-        return "redirect:/session_creation";
+        return "redirect:/admin/session_creation";
     }
 
     // создание дефолтной схемы на 3 юнита
