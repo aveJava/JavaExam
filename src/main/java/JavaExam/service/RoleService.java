@@ -23,6 +23,8 @@ public class RoleService {
         return roleRepo.getOne(id);
     }
 
+    public Role findByName(String name) { return roleRepo.findByName(name); }
+
     public Role save(Role role) {
         return roleRepo.save(role);
     }

@@ -37,9 +37,8 @@ public class ExamSessionService {
         return sessionRepo.findByUser(user);
     }
 
-    public boolean save(ExamSession topic) {
-        sessionRepo.save(topic);
-        return true;
+    public ExamSession save(ExamSession topic) {
+        return sessionRepo.save(topic);
     }
 
     public boolean update(ExamSession topic) {

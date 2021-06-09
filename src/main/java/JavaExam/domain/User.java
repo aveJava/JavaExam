@@ -42,6 +42,16 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn (name = "authority"))
     private Set<Role> roles;
 
+    public User() {
+    }
+
+    public User(String username, String password, ExamSessionSchema sessionSchema, Set<Role> roles) {
+        this.username = username;
+        this.password = password;
+        this.enabled = true;
+        this.sessionSchema = sessionSchema;
+        this.roles = roles;
+    }
 
     // поля html-формы
 

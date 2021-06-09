@@ -36,13 +36,15 @@ public class ExamSessionSchemaService {
         return schemaRepository.findByName(name);
     }
 
-    public void save(ExamSessionSchema schema) {
+    public ExamSessionSchema save(ExamSessionSchema schema) {
         ExamSessionSchema savedSchema = schemaRepository.save(schema);
         List<ExamSessionSchemaUnit> units = schema.getUnits();
         for (ExamSessionSchemaUnit unit : units) {
             unit.setSessionSchema(savedSchema);
             unitService.save(unit);
         }
+
+        return savedSchema;
     }
 
     public boolean saveIfNameNotUsed(ExamSessionSchema schema) {

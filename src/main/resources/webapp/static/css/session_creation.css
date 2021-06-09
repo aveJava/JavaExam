@@ -65,3 +65,16 @@ input[type="number"]:focus {
     padding: 0px 10px;
     width: max-content;
 }
+
+.credentialField {
+    width: 28vw;
+    padding: 0.5vw;
+    border-style: solid;
+    border-radius: 10px;
+    border-color: forestgreen;
+    margin: 1vw;
+    background: darkgoldenrod;
+    font-weight: 700;
+    font-size: 1.5vw;
+    box-shadow: 3px 4px 60px 4px rgb(212 216 0 / 54%);
+}

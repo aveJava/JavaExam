@@ -42,19 +42,19 @@ public class UserService implements UserDetailsService {
         return userRepo.findByUsernameAndEnabledIsTrue(username).isPresent();
     }
 
-    public boolean save(User user) {
+    public Optional<User> save(User user) {
         // если в БД уже есть активный пользователь с таким именем, то ничего не делать
         if (isPresentEnableUsersWithUsername(user.getUsername())) {
-            return false;
+            return Optional.empty();
         }
 
         // хеширование пароля, установка новому пользователю роли User и сохраниние в БД
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setRoles(Set.of(roleRepo.findByName("ROLE_USER")));
         user.setEnabled(true);
-        userRepo.save(user);
+        User savedUsr = userRepo.save(user);
 
-        return true;
+        return Optional.of(savedUsr);
     }
 
     public boolean update(User user) {
