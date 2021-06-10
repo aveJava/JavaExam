@@ -8,17 +8,10 @@
 
     <div th:fragment="content" class="content">
 
-        <form id="JavaForm" action="/testing/selection" method="get" class="testIcon">
-            <input type="hidden" name="test" value="JAVA">
-            <img class="labelImg" src="images/java_icon.png" style="width: 5vw;">
-            <button class="labelBtn" type="submit">Начать тест по Java</button>
-        </form>
-
-<!--        <form id="SpringForm" action="/testing/selection" method="get" class="testIcon">-->
-<!--            <input type="hidden" name="test" value="SPRING">-->
-<!--            <img class="labelImg" src="images/spring_icon.png" style="width: 8vw; margin: 0.75vw auto;">-->
-<!--            <button class="labelBtn" type="submit">Начать тест по Spring</button>-->
-<!--        </form>-->
+        <div style="margin: 30vh;">
+            <img class="labelImg" src="images/java_icon.png" style="margin: 0 auto 0.2vw; display: block; width: 5vw;">
+            <a href="/testing" class="labelBtn" type="submit">Начать тест по Java</a>
+        </div>
 
     </div>
 
