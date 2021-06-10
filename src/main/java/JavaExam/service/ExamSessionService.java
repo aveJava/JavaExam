@@ -33,29 +33,30 @@ public class ExamSessionService {
         return sessionRepo.findByDateBetween(start, end);
     }
 
-    public List<ExamSession> findByUser(User user) {
-        return sessionRepo.findByUser(user);
+    public ExamSession findByUser(User user) {
+        List<ExamSession> sessions = sessionRepo.findByUser(user);
+        return sessions.size() > 0 ? sessions.get(0) : null;
     }
 
     public ExamSession save(ExamSession topic) {
         return sessionRepo.save(topic);
     }
 
-    public boolean update(ExamSession topic) {
-        Long id = topic.getId();
+    public boolean update(ExamSession session) {
+        Long id = session.getId();
         if (sessionRepo.findById(id) == null) {
             return false;   // нечего обновлять
         }
-        sessionRepo.save(topic);
+        sessionRepo.save(session);
         return true;
     }
 
-    public boolean delete(ExamSession topic) {
-        Long id = topic.getId();
+    public boolean delete(ExamSession session) {
+        Long id = session.getId();
         if (sessionRepo.findById(id) == null) {
             return false;   // нечего удалять
         }
-        sessionRepo.delete(topic);
+        sessionRepo.delete(session);
         return true;
     }
 

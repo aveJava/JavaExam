@@ -6,9 +6,27 @@
 </head>
 <body>
 
-    <div th:fragment="test">
+    <div th:fragment="test" class="content">
 
-        <p>На этой странице будет проходить тестирование</p>
+        <div style="display: flex; width: 100%;">
+
+            <!-- если для данной учетки не запланирована сессиия (для админа, например) -->
+            <div th:if="${noSession}" style="margin: 30vh auto; font-size: 2vw;">Для данного пользователя нет сессии</div>
+
+            <!-- если для данной учетки запланирована сессиия -->
+            <div th:if="${!noSession}" style="width: 50vw; margin: 3vw auto;">
+                <div class="questionNumberArea">Вопрос номер [[${questionNumber}]]</div>
+                <div class="questionArea">
+                    <div style="margin: auto 1vw;"><img src="/images/question mark.png" style="width: 7vw;"></div>
+                    <div style="padding: .5vw;">[[${question.getQuestion()}]]</div>
+                </div>
+                <div class="answerOptions">Варианты ответа:</div>
+                <a th:href="'/testing/accept_answer?answer_number=' + ${numbering.getNumber()}" class="answer" th:each="answer : ${question.getAnswers()}">
+                    <div>[[${answer}]]</div>
+                </a>
+            </div>
+
+        </div>
 
     </div>
 

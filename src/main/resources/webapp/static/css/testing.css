@@ -3,7 +3,62 @@ body {
     padding: 0;
 }
 
-p {
-    font-size: 2vw;
-    margin-left: 12.5vw;
+.content {
+    background-color: #e2eced;
+    width: 100%;
+    min-height: calc(100vh - 50px);
+    display: flex;
+    font-size: 20px;
+}
+
+.questionNumberArea {
+    padding: 0.2vw;
+    font-weight: 700;
+    border-style: solid;
+    border-color: gray;
+    border-width: 1px;
+    border-radius: 5px;
+    background: darkturquoise;
+}
+
+.answerOptions  {
+    background: #92b422;
+    padding: 0.2vw;
+    font-weight: 700;
+    border-style: solid;
+    border-color: gray;
+    border-width: 1px;
+    border-radius: 5px;
+    margin-bottom: 0.5vw;
+}
+
+.answer {
+    display: block;
+    background: white;
+    padding: 0.2vw;
+    border-style: solid;
+    border-color: gray;
+    border-width: 1px;
+    border-radius: 5px;
+    margin-bottom: 0.5vw;
+    text-decoration: none;
+    color: black;
+}
+
+.answer:hover {
+    border-color: black;
+    border-width: 2px;
+    background: space;
+    margin-bottom: calc(0.5vw - 2px);
+}
+
+.questionArea {
+    display: flex;
+    background: white;
+    border-style: solid;
+    border-color: gray;
+    border-width: 1px;
+    border-radius: 5px;
+    margin: 1vw 0;
+    min-height: 9vw;
 }

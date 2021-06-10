@@ -27,11 +27,11 @@ public class ExamSession {
     @Column(name = "date")
     private LocalDate date;
 
-    @JoinColumn(name = "user_id")
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany
+    @OneToMany(mappedBy = "session", fetch = FetchType.EAGER)
     private List<UserAnswer> answers;
 
 }

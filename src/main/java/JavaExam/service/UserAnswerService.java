@@ -23,9 +23,8 @@ public class UserAnswerService {
         return answerRepo.findAll();
     }
 
-    public boolean save(UserAnswer topic) {
-        answerRepo.save(topic);
-        return true;
+    public UserAnswer save(UserAnswer topic) {
+        return answerRepo.save(topic);
     }
 
     public boolean update(UserAnswer topic) {
