@@ -41,6 +41,7 @@ public class TestingController {
             this.user = user;
             if (session != null) sessionService.save(session);
             session = sessionService.findByUser(user);
+            //session.setAnswers(null);
         }
 
         // передача текущего вопроса на фронт
@@ -77,19 +78,19 @@ public class TestingController {
                 .flatMap(unitQuans -> unitQuans.stream())
                 .collect(Collectors.toList());
 
-        // создание списка ответов (пока они будут включать только вопросы, на которые надо дать ответы)
-        List<UserAnswer> answers = new ArrayList<>(quans.stream().reduce((i1, i2) -> i1 + i2).get());
+        // создание списка вопросов
+        List<ExamQuestion> questions = new ArrayList<>(quans.stream().reduce(0, Integer::sum));
         for (int i = 0; i < topics.size(); i++) {
-            for (int j = 0; j < quans.get(i); j++) {
-                UserAnswer answer = new UserAnswer();
-                answer.setSession(session);
+            questions.addAll(questionService.findRandomQuestionsByTopic(topics.get(i), quans.get(i)));
+        }
 
-                List<ExamQuestion> questionsByTopic = questionService.getAllByTopic(topics.get(i));
-                ExamQuestion question = questionsByTopic.get((int) (Math.random() * questionsByTopic.size()));
-                answer.setQuestion(question);
-
-                answers.add(answerService.save(answer));
-            }
+        // сохранение вопросов в поле answers сессии (содержит не только ответ, но и вопрос)
+        List<UserAnswer> answers = new ArrayList<>(questions.size());
+        for (int i = 0; i < questions.size(); i++) {
+            UserAnswer answer = new UserAnswer();
+            answer.setSession(session);
+            answer.setQuestion(questions.get(i));
+            answers.add(answerService.save(answer));
         }
 
         session.setAnswers(answers);

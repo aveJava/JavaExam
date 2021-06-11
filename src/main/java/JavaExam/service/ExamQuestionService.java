@@ -52,6 +52,10 @@ public class ExamQuestionService {
         return questionRepo.findByTopicFieldOfKnowledge(fieldOfKnowledge);
     }
 
+    public List<ExamQuestion> findRandomQuestionsByTopic(ExamQuestionTopic topic, Integer limit) {
+        return questionRepo.findRandomQuestionsByTopic(topic.getId(), limit);
+    }
+
     public boolean save(ExamQuestion question) {
         questionRepo.save(question);
         return true;
