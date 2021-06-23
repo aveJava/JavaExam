@@ -29,7 +29,7 @@ public class ExamQuestionTopicController {
         if (isFoKnPresent && isNamePresent) {
             ExamQuestionFieldOfKnowledge fieldOfKnowledge = fieldOfKnowledgeService.getByName(foKn);
             if (fieldOfKnowledge != null) {
-                boolean isPresentInDB = topicService.hasFindByFieldOfKnowledgeAndFindByName(fieldOfKnowledge, name);
+                boolean isPresentInDB = topicService.hasFindByFieldOfKnowledgeAndName(fieldOfKnowledge, name);
                 if (!isPresentInDB) {
                     ExamQuestionTopic topic = new ExamQuestionTopic();
                     topic.setFieldOfKnowledge(fieldOfKnowledge);

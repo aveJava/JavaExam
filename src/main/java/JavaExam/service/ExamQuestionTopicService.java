@@ -39,8 +39,8 @@ public class ExamQuestionTopicService {
         return topicRepo.findByNameContainingIgnoreCase(nameInclusion);
     }
 
-    public boolean hasFindByFieldOfKnowledgeAndFindByName(ExamQuestionFieldOfKnowledge fieldOfKnowledge, String name) {
-        return topicRepo.countFindByFieldOfKnowledgeAndName(fieldOfKnowledge, name) > 0;
+    public boolean hasFindByFieldOfKnowledgeAndName(ExamQuestionFieldOfKnowledge fieldOfKnowledge, String name) {
+        return findByFoKnNameAndName(fieldOfKnowledge.getName(), name) != null;
     }
 
     public boolean save(ExamQuestionTopic topic) {
