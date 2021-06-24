@@ -41,7 +41,10 @@ public class TestingController {
             this.user = user;
             if (session != null) sessionService.save(session);
             session = sessionService.findByUser(user);
-            //session.setAnswers(null);
+        }
+
+        if (session.isCompleted()) {
+            return "redirect:";     //************************************* добавить ссылку на результаты данной сессии
         }
 
         // передача текущего вопроса на фронт

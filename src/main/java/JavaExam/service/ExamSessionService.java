@@ -25,6 +25,10 @@ public class ExamSessionService {
         return sessionRepo.findAll();
     }
 
+    public List<ExamSession> findAllCompleted() {
+        return sessionRepo.findByIsCompletedIsTrue();
+    }
+
     public List<ExamSession> findByDate(LocalDate date) {
         return sessionRepo.findByDate(date);
     }

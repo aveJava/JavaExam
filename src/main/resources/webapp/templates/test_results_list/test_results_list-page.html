@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Test results</title>
+    <link href="/test_results.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div th:insert="~{fragments/navbar :: navbar}"></div>
+
+    <!-- Content -->
+    <div th:insert="~{test_results_list/test_results_list-content :: content}"></div>
+
+</body>
+</html>

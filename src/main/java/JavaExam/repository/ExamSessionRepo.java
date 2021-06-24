@@ -17,4 +17,6 @@ public interface ExamSessionRepo extends JpaRepository<ExamSession, Long> {
     List<ExamSession> findByDate(LocalDate date);
     @Transactional
     List<ExamSession> findByDateBetween(LocalDate start, LocalDate end);
+    @Transactional
+    List<ExamSession> findByIsCompletedIsTrue();
 }

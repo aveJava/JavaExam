@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Test results content</title>
+</head>
+<body>
+
+    <div th:fragment="content" class="content" style="display: inline-block;">
+
+        <p th:each="entry : ${resultsMap}" style="display: block; margin-left: 12.8vw;">
+            <a th:href="${entry.getValue()}">[[${entry.getKey()}]]</a><br>
+        </p>
+
+    </div>
+
+</body>
+</html>
