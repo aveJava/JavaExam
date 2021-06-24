@@ -23,11 +23,11 @@ public class TestResultsController {
     @GetMapping
     public String displayPage(Model model) {
         List<ExamSession> completedSessions = sessionService.findAllCompleted();
-        Map<String, String> resultsMap = new HashMap<>(completedSessions.size());
+        Map<String, Long> resultsMap = new HashMap<>(completedSessions.size());
         completedSessions.forEach((s) -> {
             String userName = s.getUser().getUsername();
-            String href = "/results/" + s.getId();
-            resultsMap.put(userName, href);
+            Long id = s.getId();
+            resultsMap.put(userName, id);
         });
         model.addAttribute("resultsMap", resultsMap);
 

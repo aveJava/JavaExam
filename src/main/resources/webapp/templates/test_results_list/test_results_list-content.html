@@ -6,11 +6,16 @@
 </head>
 <body>
 
-    <div th:fragment="content" class="content" style="display: inline-block;">
+    <div th:fragment="content" class="content" style="display: inline-block; padding-top: 2vw;">
 
-        <p th:each="entry : ${resultsMap}" style="display: block; margin-left: 12.8vw;">
-            <a th:href="${entry.getValue()}">[[${entry.getKey()}]]</a><br>
-        </p>
+        <p th:if="${resultsMap.size() == 0}" style="margin-left: 12.8vw;">Нет ни одной завершенной сессии</p>
+
+        <div th:each="entry : ${resultsMap}" style="display: flex; margin-left: 12.8vw; height: 40px;">
+            <div style="width: 18vw; margin: auto 0;"><a th:href="'/display_session_result/' + ${entry.getValue()}">[[${entry.getKey()}]]</a></div>
+            <div style="margin: auto 0px; width: 25px;">
+                <img src="/images/delete.png" class="deleteImg" th:id="${entry.getValue()}">
+            </div>
+        </div>
 
     </div>
 

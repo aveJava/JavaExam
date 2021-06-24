@@ -10,3 +10,13 @@ body {
     display: flex;
     font-size: 20px;
 }
+
+.deleteImg {
+    display: block;
+    margin: auto;
+    width: 20px;
+}
+
+.deleteImg:hover {
+    width: 22px;
+}

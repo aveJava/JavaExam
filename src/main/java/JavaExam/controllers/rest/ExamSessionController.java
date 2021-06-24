@@ -10,9 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.DataBinder;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
@@ -101,6 +99,12 @@ public class ExamSessionController {
         redirectAttr.addFlashAttribute("password", password);
 
         return "redirect:/admin/session_creation";
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseBody
+    public void delete(@PathVariable("id") Long id) {
+        sessionService.delete(sessionService.get(id));
     }
 
     // валидирует заполненную форму создания или редактирования вопроса
