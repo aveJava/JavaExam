@@ -1,6 +1,7 @@
 package JavaExam.controllers.rest;
 
 import JavaExam.domain.ExamQuestion;
+import JavaExam.domain.ExamQuestionTopic;
 import JavaExam.model.ExamQuestionModel;
 import JavaExam.service.ExamQuestionService;
 import JavaExam.service.ExamQuestionTopicService;
@@ -40,7 +41,7 @@ public class ExamQuestionController {
         return "redirect:/admin/editing_tests";
     }
 
-    @GetMapping("{id}/edit")
+    @GetMapping("/{id}/edit")
     public String updateForm(@PathVariable("id") Long id, RedirectAttributes redirectAttr) {
         redirectAttr.addFlashAttribute("model", questionService.get(id).toModel());
         redirectAttr.addFlashAttribute("editing", true);
@@ -48,7 +49,7 @@ public class ExamQuestionController {
         return "redirect:/admin/editing_tests";
     }
 
-    @PatchMapping("{id}")
+    @PatchMapping("/{id}")
     public String update(@PathVariable("id") Long id, @ModelAttribute("model") ExamQuestionModel model, RedirectAttributes redirectAttr) {
         boolean isValid = validateAndPrepareRedirectAttributesIfInvalid(model, redirectAttr);
         if (isValid) {
@@ -60,10 +61,16 @@ public class ExamQuestionController {
         return "redirect:/admin/editing_tests";
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") Long id) {
         questionService.delete(questionService.get(id));
         return "redirect:/admin/editing_tests";
+    }
+
+    @GetMapping("/count")
+    @ResponseBody
+    public int getCount(@RequestParam("foKn") String foKn, @RequestParam("topic") String topic) {
+        return questionService.countByTopic(topicService.findByFoKnNameAndName(foKn, topic));
     }
 
     // валидирует заполненную форму создания или редактирования вопроса

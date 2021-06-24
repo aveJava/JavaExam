@@ -56,6 +56,10 @@ public class ExamQuestionService {
         return questionRepo.findRandomQuestionsByTopic(topic.getId(), limit);
     }
 
+    public Integer countByTopic(ExamQuestionTopic topic) {
+        return questionRepo.countByTopic(topic);
+    }
+
     public boolean save(ExamQuestion question) {
         questionRepo.save(question);
         return true;

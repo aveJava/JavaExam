@@ -21,4 +21,6 @@ public interface ExamQuestionRepo extends JpaRepository<ExamQuestion, Long> {
 
     @Query(value="SELECT * FROM exam_question q WHERE q.topic_id = :topicId ORDER BY RAND() LIMIT :limit", nativeQuery = true)
     List<ExamQuestion> findRandomQuestionsByTopic(@Param("topicId") Long topicId, @Param("limit") Integer limit);
+
+    int countByTopic(ExamQuestionTopic topic);
 }

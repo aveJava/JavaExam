@@ -53,7 +53,7 @@
                 <form method="post" action="/admin/session_creation/update_schema" th:object="${SchemaModel}" name="SessionSchemaEditingForm">
                     <input type="hidden" name="id" th:value="${SchemaModel.getId()}">
                     <!-- Вывод всех юнитов -->
-                    <div th:each="unitNumber : ${#numbers.sequence(0, units.size() - 1)}" style="display: flex; margin: 1vw 0"
+                    <div th:each="unitNumber : ${#numbers.sequence(0, units.size() - 1)}" style="display: flex; margin: 1vw 0" class="unit"
                          th:with="unit = ${units.get(unitNumber)}">
 
                         <input type="hidden" th:name="'units[' + ${unitNumber} + '].id'" th:value="${units.get(unitNumber).getId()}">
@@ -81,14 +81,14 @@
                                         <select th:name="'units[' + ${unitNumber} + '].topics[' + ${topicNumber} + ']'"
                                                 th:with="topics = ${unit.getTopics()},
                                                          isSelected = ${topics != null && topics.size() > topicNumber && !topics.get(topicNumber).isEmpty()}"
-                                                style="width: 100%;">
+                                                style="width: 100%;" class="topicSelect">
                                             <option selected th:text="${isSelected} ? ${unit.getTopics().get(topicNumber)} : ''"></option>
                                             <th:block th:each="topic : ${topicService.findAllByFoKnName(unit.getFoKn())}">
                                                 <option>[[${topic.getName()}]]</option>
                                             </th:block>
                                         </select>
                                         <input type="number" th:name="'units[' + ${unitNumber} + '].quantityQuestions[' + ${topicNumber} + ']'"
-                                               style="width: 2.5vw; text-align: center; border-radius: 5px; border-width: 1px;"
+                                               style="width: 2.5vw; text-align: center; border-radius: 5px; border-width: 1px;" class="quesCount"
                                                th:value="${unit.getQuantityQuestions() == null || unit.getQuantityQuestions().size() <= topicNumber ? '' : unit.getQuantityQuestions().get(topicNumber)}">
                                     </div>
                                 </div>
