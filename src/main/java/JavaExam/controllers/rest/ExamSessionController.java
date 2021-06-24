@@ -93,7 +93,8 @@ public class ExamSessionController {
         ExamSession session = new ExamSession();
         session.setUser(usrOptional.get());
         session.setDate(LocalDate.now());
-        session = sessionService.save(session);
+        session.setCompleted(false);
+        sessionService.save(session);
 
         redirectAttr.addFlashAttribute("showCredentials", true);
         redirectAttr.addFlashAttribute("username", username);

@@ -34,4 +34,7 @@ public class ExamSession {
     @OneToMany(mappedBy = "session", fetch = FetchType.EAGER)
     private List<UserAnswer> answers;
 
+    @Column(name = "completed")
+    private boolean isCompleted;
+
 }
