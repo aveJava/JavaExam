@@ -41,8 +41,8 @@ public class ExamQuestion {
     public ExamQuestionModel toModel() {
         ExamQuestionModel model = new ExamQuestionModel();
         model.setId(id);
-        model.setFieldOfKnowledge(topic.fieldOfKnowledge.getName());
-        model.setTopic(topic.name);
+        model.setFieldOfKnowledge(topic.getFieldOfKnowledge().getName());
+        model.setTopic(topic.getName());
         model.setQuestion(question);
         model.setAnswer1(answers.get(0));
         model.setAnswer2(answers.get(1));

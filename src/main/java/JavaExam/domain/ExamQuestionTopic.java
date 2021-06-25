@@ -24,9 +24,9 @@ public class ExamQuestionTopic {
 
     @OneToOne
     @JoinColumn(name = "field_of_knowledge_id")
-    ExamQuestionFieldOfKnowledge fieldOfKnowledge;
+    private ExamQuestionFieldOfKnowledge fieldOfKnowledge;
 
     @Column(name = "name")
-    String name;
+    private String name;
 
 }
