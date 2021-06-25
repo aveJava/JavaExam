@@ -12,9 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
@@ -70,6 +68,27 @@ public class ExamSessionSchemaUnit {
         }
 
         return model;
+    }
+
+    // получить карту данного юнита
+    public Map<ExamQuestionTopic, Integer> getUnitMap() {
+        return stackUnitMaps(new HashMap<>());
+    }
+
+    // добавить к указанной карте карту данного юнита и вернуть общую карту
+    public Map<ExamQuestionTopic, Integer> stackUnitMaps(Map<ExamQuestionTopic, Integer> map) {
+        for (int i = 0; i < topics.size(); i++) {
+            ExamQuestionTopic topic = topics.get(i);
+            Integer quantity = quantityQuestions.get(i);
+
+            if (map.containsKey(topic)) {
+                quantity += map.get(topic);
+            }
+
+            map.put(topic, quantity);
+        }
+
+        return map;
     }
 
 }

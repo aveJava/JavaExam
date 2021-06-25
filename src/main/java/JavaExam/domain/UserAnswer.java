@@ -33,4 +33,8 @@ public class UserAnswer {
     @Column(name = "selected_answer_number")
     private byte selectedAnswerNumber;
 
+    public boolean isCorrect() {
+        return  selectedAnswerNumber == question.getCorrectAnswerNumber();
+    }
+
 }

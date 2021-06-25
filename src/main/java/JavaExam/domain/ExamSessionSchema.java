@@ -11,7 +11,9 @@ import org.hibernate.annotations.SelectBeforeUpdate;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table(name = "session_schema")
@@ -57,4 +59,20 @@ public class ExamSessionSchema {
         this.id = id;
         this.name = name;
     }
+
+    public Map<ExamQuestionFieldOfKnowledge, Map<ExamQuestionTopic, Integer>> getSessionSchemaMap() {
+        Map<ExamQuestionFieldOfKnowledge, Map<ExamQuestionTopic, Integer>> schemaMap = new HashMap<>(units.size());
+
+        for (int i = 0; i < units.size(); i++) {
+            ExamSessionSchemaUnit unit = units.get(i);
+            ExamQuestionFieldOfKnowledge foKn = unit.getFoKn();
+            Map<ExamQuestionTopic, Integer> unitMap = schemaMap.containsKey(foKn) ?
+                    unit.stackUnitMaps(schemaMap.get(foKn)) : unit.getUnitMap();
+
+            schemaMap.put(foKn, unitMap);
+        }
+
+        return schemaMap;
+    }
+
 }
