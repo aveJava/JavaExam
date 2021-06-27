@@ -39,28 +39,21 @@ public class TestingController {
         // загрузка нужной сессии
         if (this.user != user) {
             this.user = user;
-            if (session != null) sessionService.save(session);
             session = sessionService.findByUser(user);
-        }
-
-        if (session.isCompleted()) {
-            return "redirect:";     //************************************* добавить ссылку на результаты данной сессии
         }
 
         // передача текущего вопроса на фронт
         if (session != null) {
+            if (session.isCompleted()) return "redirect:/display_session_result/" + session.getId();
             if (session.getAnswers() == null || session.getAnswers().size() == 0) sessionInitialization(session);
-
             if ((questionNumber - 1) < session.getAnswers().size()) {
-                model.addAttribute("noSession", session == null);
+                model.addAttribute("noSession", false);
                 model.addAttribute("questionNumber", questionNumber);
                 model.addAttribute("question", session.getAnswers().get(questionNumber - 1).getQuestion());
                 model.addAttribute("numbering", new Numbering());
             } else {
-                return "testing/testing-page-results";
+                return "redirect:/display_session_result/" + session.getId();
             }
-
-
         } else model.addAttribute("noSession", true);
 
         return "testing/testing-page";
@@ -97,7 +90,9 @@ public class TestingController {
         }
 
         session.setAnswers(answers);
+        session.setCompleted(true);
         sessionService.update(session);
+        session.setCompleted(false);
     }
 
     @GetMapping("accept_answer")

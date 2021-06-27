@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Test results content</title>
+</head>
+<body>
+
+    <div th:fragment="content" class="content">
+
+        <div th:if="${mess} != null">
+            <p>[[${mess}]]</p>
+        </div>
+
+        <div th:if="${mess} == null">
+            <div style="margin-bottom: 3vw;">
+                <p>Пользователь: [[${user.getUsername()}]]</p>
+                <p>Дата сессии: [[${date.getDayOfMonth()}]] [[${month}]] [[${date.getYear()}]]</p>
+                <p>Общий результат: [[${#numbers.formatDecimal (finalScore, 1, 1)}]]%</p>
+            </div>
+            <!-- Перебор разделов -->
+            <div th:each="entry : ${result_map.entrySet()}" class="foKn">
+                <p class="foKnHeader">[[${entry.getKey().getKey().getName()}]] ([[${#numbers.formatDecimal ((entry.getKey().getValue() * 100), 1, 1)}]]%)</p>
+                <div class="topicContainer">
+                    <!-- Перебор тем -->
+                    <div th:each="en : ${entry.getValue().entrySet()}" class="topic">
+                        <input type="text" class="topicHeader" th:value="${en.getKey().getName()}" readonly>
+                        <div style="display: flex; width: 3vw; height: 5vw; border-style: ridge; margin: 0 auto;">
+                            <div class="filling" th:attr="style='height: ' + ${5 * en.getValue()} + 'vw;'"></div>
+                        </div>
+                        <p style="margin: 0.3vw auto 0; display: table; font-size: 0.8vw; padding-left: 5%;">[[${#numbers.formatDecimal ((en.getValue() * 100), 1, 1)}]] %</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

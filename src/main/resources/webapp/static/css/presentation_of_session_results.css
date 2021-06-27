@@ -1,0 +1,55 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.content {
+    background-color: darkgrey;
+    width: 100%;
+    box-sizing: border-box;
+    min-height: calc(100vh - 50px);
+    font-size: 20px;
+    display: inline-block;
+    padding: 2vw 10vw;
+}
+
+.foKnHeader {
+    font-style: oblique;
+    font-family: monospace;
+    font-weight: 700;
+}
+
+.topicContainer {
+    display: flex;
+    padding-left: 2vw;
+    width: 75vw;
+}
+
+.topic {
+    margin: 0 1vw;
+    width: 7vw;
+}
+
+.topicHeader {
+    display: block;
+    font-size: 0.8vw;
+    color: yellow;
+    background: steelblue;
+    width: 6vw;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 5px;
+    border-color: indigo;
+    text-align: center;
+    margin: 0 auto 0.5vw;
+}
+
+.filling  {
+    width: 3vw;
+    background: cornflowerblue;
+    margin-top: auto;
+}
+
+. {
+
+}

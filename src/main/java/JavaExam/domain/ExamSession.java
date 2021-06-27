@@ -13,6 +13,7 @@ import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Entity
@@ -55,13 +56,15 @@ public class ExamSession {
         // получение карты 'тема - доля правильных ответов' (доля находится как 'кол-во_правильных_ответов / общее_кол-во_вопросов')
         Map<ExamQuestionTopic, Double> topicMap = new HashMap<>();
         for (ExamQuestionFieldOfKnowledge foKn : schemaMap.keySet()) {
-            Map<ExamQuestionTopic, Integer> sessionSchemeThisFoKnMap = schemaMap.get(foKn);
-            Map<ExamQuestionTopic, Integer> correctAnswersThisFoKnMap = correctAnswersMap.get(foKn);
+            Map<ExamQuestionTopic, Integer> thisFoKnMapInSessionScheme = schemaMap.get(foKn);
+            Map<ExamQuestionTopic, Integer> thisFoKnMapInCorrectAnswers = correctAnswersMap.get(foKn);
 
-            for (ExamQuestionTopic topic : sessionSchemeThisFoKnMap.keySet()) {
-                Integer countOfQuestionsAsked = sessionSchemeThisFoKnMap.get(topic);
-                Integer countCorrectAnswers = correctAnswersThisFoKnMap == null ?
-                                                    0 : correctAnswersThisFoKnMap.get(topic);
+            for (ExamQuestionTopic topic : thisFoKnMapInSessionScheme.keySet()) {
+                Integer countOfQuestionsAsked = thisFoKnMapInSessionScheme.get(topic);
+                Integer countCorrectAnswers = Optional
+                        .ofNullable(thisFoKnMapInCorrectAnswers)
+                        .map(foKn1 -> foKn1.get(topic))
+                        .orElse(0);
                 topicMap.put(topic, countCorrectAnswers * 1.0 / countOfQuestionsAsked);
             }
         }
@@ -105,8 +108,8 @@ public class ExamSession {
                 ExamQuestionTopic answerTopic = answer.getQuestion().getTopic();
                 ExamQuestionFieldOfKnowledge answerFoKn = answerTopic.getFieldOfKnowledge();
 
-                Map<ExamQuestionTopic, Integer> currentFoKnMap = map.containsKey(answerFoKn) ?
-                        map.get(answerFoKn) : map.put(answerFoKn, new HashMap<>());
+                if (!map.containsKey(answerFoKn)) map.put(answerFoKn, new HashMap<>());
+                Map<ExamQuestionTopic, Integer> currentFoKnMap = map.get(answerFoKn);
                 Integer counterOfCorrectAnswersOnTopicThisQuestion = currentFoKnMap.containsKey(answerTopic) ?
                         currentFoKnMap.get(answerTopic) : 0;
                 currentFoKnMap.put(answerTopic, ++counterOfCorrectAnswersOnTopicThisQuestion);

@@ -42,8 +42,8 @@ public class ExamSessionService {
         return sessions.size() > 0 ? sessions.get(0) : null;
     }
 
-    public ExamSession save(ExamSession topic) {
-        return sessionRepo.save(topic);
+    public ExamSession save(ExamSession session) {
+        return sessionRepo.save(session);
     }
 
     public boolean update(ExamSession session) {
