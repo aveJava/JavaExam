@@ -26,7 +26,7 @@ public class UserAnswer {
     @JoinColumn(name = "session_id")
     private ExamSession session;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "question_id")
     private ExamQuestion question;
 

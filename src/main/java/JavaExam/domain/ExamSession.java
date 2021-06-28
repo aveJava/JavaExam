@@ -10,10 +10,7 @@ import org.hibernate.annotations.SelectBeforeUpdate;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.sql.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
@@ -114,6 +111,30 @@ public class ExamSession {
                         currentFoKnMap.get(answerTopic) : 0;
                 currentFoKnMap.put(answerTopic, ++counterOfCorrectAnswersOnTopicThisQuestion);
             }
+        }
+
+        return map;
+    }
+
+    public Map<ExamQuestionFieldOfKnowledge, Map<ExamQuestionTopic, List<UserAnswer>>> getAnswerMap() {
+        Map<ExamQuestionFieldOfKnowledge, Map<ExamQuestionTopic, List<UserAnswer>>> map = new HashMap<>();
+
+        for (UserAnswer answer : answers) {
+            ExamQuestionTopic answerTopic = answer.getQuestion().getTopic();
+            ExamQuestionFieldOfKnowledge answerFoKn = answerTopic.getFieldOfKnowledge();
+
+            Map<ExamQuestionTopic, List<UserAnswer>> foKnMap = map.get(answerFoKn);
+            if (foKnMap == null) {
+                var newFoKnMap = new HashMap<ExamQuestionTopic, List<UserAnswer>>();
+                map.put(answerFoKn, foKnMap = newFoKnMap);
+            }
+
+            List<UserAnswer> thisTopicAnswers = foKnMap.get(answerTopic);
+            if (thisTopicAnswers == null) {
+                foKnMap.put(answerTopic, thisTopicAnswers = new ArrayList<>());
+            }
+
+            thisTopicAnswers.add(answer);
         }
 
         return map;

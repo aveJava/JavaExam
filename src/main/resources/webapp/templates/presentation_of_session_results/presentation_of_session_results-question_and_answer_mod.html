@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Question and answer MOD</title>
+</head>
+<body>
+
+    <div th:fragment="question_and_answer_mod">
+
+        <link href="/testing.css" rel="stylesheet">
+
+        <!-- разделы -->
+        <div th:each="foKn : ${AnswerMap}">
+            <div th:text="${foKn.getKey().getName()}" class="foKnHeader foKnHeaderQueAnsMOD">Имя раздела</div>
+
+            <!-- темы -->
+            <div th:each="topic : ${foKn.getValue().entrySet()}">
+                <div th:text="${topic.getKey().getName()}" class="questionNumberArea topicQueAnsMOD">Имя темы</div>
+
+                <!-- ответы -->
+                <div th:each="user_answer : ${topic.getValue()}" th:with="question=${user_answer.getQuestion()}" class="userAnswer">
+                    <!-- вопрос -->
+                    <div class="questionArea" th:style="'background: rgba(' + (${user_answer.isCorrect()} ? '0, 255' : '255, 0') + ', 0, 0.2);'">
+                        <div style="margin: auto 1vw;"><img src="/images/question mark.png" style="width: 7vw;"></div>
+                        <div style="padding: .5vw;">[[${question.getQuestion()}]]</div>
+                    </div>
+                    <!-- варианты ответа -->
+                    <div class="answerOptions">Варианты ответа:</div>
+                    <th:block th:each="answer : ${question.getAnswers()}">
+                        <th:block th:with="queNum=${question.getAnswers().indexOf(answer) + 1}, corNum=${question.getCorrectAnswerNumber()}, selNum=${user_answer.getSelectedAnswerNumber()}">
+                            <div class="answer" style="pointer-events: none; display: flex">
+                                <div th:text="${answer}" style="width: 55vw;">Вариант ответа</div>
+                                <div th:if="${queNum == selNum || queNum == corNum}" style="width: 1vw;">
+                                    <img src="/images/ok.png" th:if="${queNum == corNum}" style="width: 1vw">
+                                    <img src="/images/no_ok.png" th:if="${queNum != corNum}" style="width: 1vw">
+                                </div>
+                            </div>
+                        </th:block>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

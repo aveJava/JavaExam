@@ -13,6 +13,19 @@ body {
     padding: 2vw 10vw;
 }
 
+.MODbutton {
+    width: 11vw;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 5px;
+    background: black;
+    height: fit-content;
+    padding: 3px;
+    text-align: center;
+}
+
+/* Diagramm MOD */
+
 .foKnHeader {
     font-style: oblique;
     font-family: monospace;
@@ -50,6 +63,32 @@ body {
     margin-top: auto;
 }
 
-. {
+/* Question and Answer MOD */
 
+.foKnHeaderQueAnsMOD {
+    border-radius: 5px;
+    background: crimson;
+    color: yellow;
+    padding: 5px;
+    margin: 1.5vw;
+    text-align: center;
+    font-size: 1.5vw;
+}
+
+.topicQueAnsMOD {
+    width: 10vw;
+    text-align: center;
+    margin: .5vw auto;
+    font-style: italic;
+    font-weight: 700;
+}
+
+.userAnswer {
+    margin: 1vw 10vw;
+    padding: 1vw;
+    border-style: solid;
+    border-radius: 5px;
+    border-width: 2px;
+    border-color: aliceblue;
+    box-shadow: 0px 0px 8px 12px rgb(34 60 80 / 20%);
 }
