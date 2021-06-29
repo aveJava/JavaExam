@@ -37,6 +37,10 @@
             <div th:if="${mod} == 'questionAndAnswer'" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERADMIN')"
                  th:insert="~{presentation_of_session_results/presentation_of_session_results-question_and_answer_mod :: question_and_answer_mod}"></div>
 
+            <!--  MOD -->
+            <div th:if="${mod} == 'topic'" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERADMIN')"
+                 th:insert="~{presentation_of_session_results/presentation_of_session_results-topic_mod :: topic_mod}"></div>
+
         </div>
 
     </div>

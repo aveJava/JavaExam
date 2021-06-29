@@ -57,6 +57,18 @@ body {
     margin: 0 auto 0.5vw;
 }
 
+.scale {
+    display: flex;
+    width: 3vw;
+    height: 5vw;
+    border-style: ridge;
+    margin: 0 auto;
+}
+
+.scale:hover {
+    box-shadow: 0px 0px 12px 7px rgb(255 215 0 / 25%);
+}
+
 .filling  {
     width: 3vw;
     background: cornflowerblue;
@@ -92,3 +104,5 @@ body {
     border-color: aliceblue;
     box-shadow: 0px 0px 8px 12px rgb(34 60 80 / 20%);
 }
+
+/* Topic MOD */

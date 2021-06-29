@@ -140,6 +140,16 @@ public class ExamSession {
         return map;
     }
 
+    public List<UserAnswer> getAnswersByTopic(ExamQuestionTopic topic) {
+        List<UserAnswer> answersByTopic = new ArrayList<>();
+        for (UserAnswer answer : answers) {
+            ExamQuestionTopic answerTopic = answer.getQuestion().getTopic();
+            if (answerTopic.getId() == topic.getId()) answersByTopic.add(answer);
+        }
+
+        return answersByTopic;
+    }
+
 }
 
 @Converter

@@ -14,7 +14,7 @@
                 <!-- Перебор тем -->
                 <div th:each="en : ${entry.getValue().entrySet()}" class="topic">
                     <input type="text" class="topicHeader" th:value="${en.getKey().getName()}" readonly>
-                    <div style="display: flex; width: 3vw; height: 5vw; border-style: ridge; margin: 0 auto;">
+                    <div class="scale" th:onclick="'location.href=\'/presentation_of_session_results/' + ${sessionId} + '?mod=topic&topicId=' + ${en.getKey().getId()} + '\''">
                         <div class="filling" th:attr="style='height: ' + ${5 * en.getValue()} + 'vw;'"></div>
                     </div>
                     <p style="margin: 0.3vw auto 0; display: table; font-size: 0.8vw; padding-left: 5%;">[[${#numbers.formatDecimal ((en.getValue() * 100), 1, 1)}]] %</p>
