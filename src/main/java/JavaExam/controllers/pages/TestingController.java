@@ -52,7 +52,7 @@ public class TestingController {
                 model.addAttribute("question", session.getAnswers().get(questionNumber - 1).getQuestion());
                 model.addAttribute("numbering", new Numbering());
             } else {
-                return "redirect:/display_session_result/" + session.getId();
+                return "redirect:/presentation_of_session_results/" + session.getId();
             }
         } else model.addAttribute("noSession", true);
 

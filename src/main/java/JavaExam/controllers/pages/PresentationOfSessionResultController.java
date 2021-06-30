@@ -20,6 +20,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/presentation_of_session_results")
 public class PresentationOfSessionResultController {
+
     private final ExamSessionService sessionService;
     private final ExamQuestionTopicService topicService;
 
@@ -30,7 +31,8 @@ public class PresentationOfSessionResultController {
     private Map<Map.Entry<ExamQuestionFieldOfKnowledge, Double>, Map<ExamQuestionTopic, Double>> result;
 
 
-    public PresentationOfSessionResultController(ExamSessionService sessionService, ExamQuestionTopicService topicService) {
+    public PresentationOfSessionResultController(ExamSessionService sessionService,
+                                                 ExamQuestionTopicService topicService) {
         this.sessionService = sessionService;
         this.topicService = topicService;
     }
@@ -41,10 +43,11 @@ public class PresentationOfSessionResultController {
                               @RequestParam(value = "mod", required = false) String mod,
                               @RequestParam(value = "topicId", required = false) Long topicId) {
         if (this.id != id) {
-            if (!checkIdAndLoadSessionOrElsePrepareModelForRedirect(id, model)) return "redirect:/presentation_of_session_results/presentation_of_session_results-page";
+            if (!checkIdAndLoadSessionOrElsePrepareModelForRedirect(id, model))
+                return "redirect:/presentation_of_session_results/presentation_of_session_results-page";
         }
 
-        switch (mod) {
+        switch (mod != null ? mod : "") {
             case "question_and_answer":
                 questionAndAnswerMod(model);
                 break;
